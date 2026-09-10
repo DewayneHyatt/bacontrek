@@ -81,10 +81,9 @@
       --cp-wash: var(--cp-word-soft);
     }
     * { box-sizing: border-box; }
-    html { height: 100%; overflow: hidden; }
+    html { scroll-behavior: smooth; scroll-padding-top: 88px; }
     body {
-      margin: 0; height: 100vh; height: 100dvh; overflow: hidden;
-      display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto;
+      margin: 0;
       background: var(--cp-bg);
       color: var(--cp-text);
       font: 16px/1.65 "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
@@ -104,7 +103,7 @@
     .skip-link { position: fixed; top: -100px; left: 24px; z-index: 30; padding: 12px; background: var(--cp-surface); }
     .skip-link:focus { top: 12px; }
     .topbar {
-      height: 64px;
+      height: 64px; position: sticky; top: 0; z-index: 10;
       border-bottom: 1px solid var(--cp-border); background: var(--cp-bg-elevated);
     }
     .topbar-inner {
@@ -121,33 +120,32 @@
     .brand span small { display: block; color: var(--cp-text-muted); font-size: 11px; letter-spacing: 1.5px; line-height: 1.3; }
     .top-meta { display: flex; gap: 24px; align-items: center; color: var(--cp-text-muted); font-size: 12px; }
     .top-progress-label { min-width: 100px; }
-    .layout { width: 100%; max-width: 1800px; min-height: 0; margin: 0 auto; padding: 12px 24px; }
+    .layout { width: 100%; max-width: 1800px; margin: 0 auto; padding: 32px 24px; display: grid; grid-template-columns: 232px minmax(0, 1fr); gap: 40px; }
     .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--cp-text-muted); }
-    .tabbar { background: var(--cp-bg-elevated); border-bottom: 1px solid var(--cp-border); }
-    .tablist { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; max-width: 1800px; margin: auto; padding: 10px 24px; }
+    .sidebar { position: sticky; top: 96px; align-self: start; max-height: calc(100vh - 112px); overflow-y: auto; padding: 4px; }
+    .sidebar > .eyebrow { margin: 0 12px 16px; }
+    .station-nav { display: grid; gap: 6px; }
     .nav-link {
-      display: flex; align-items: center; gap: 12px; text-align: left; color: var(--cp-text-muted);
+      display: flex; align-items: center; gap: 12px; text-align: left; text-decoration: none; color: var(--cp-text-muted);
       padding: 12px; border-radius: 10px; border: 1px solid var(--cp-clear); background: var(--cp-clear); min-width: 0;
     }
     .nav-link:hover { background: var(--cp-surface-soft); color: var(--cp-text); }
-    .nav-link[aria-selected="true"] { background: var(--cp-wash); border-color: var(--cp-station); color: var(--cp-text); }
+    .nav-link[aria-current="location"] { background: var(--cp-wash); border-color: var(--cp-station); color: var(--cp-text); }
     .nav-num {
       display: grid; place-items: center; flex-shrink: 0; width: 28px; height: 28px;
       border: 1px solid var(--cp-border); border-radius: 50%; font-size: 11px; font-weight: 650;
     }
-    .nav-link[aria-selected="true"] .nav-num { background: var(--cp-surface); border-color: var(--cp-station); color: var(--cp-station); }
+    .nav-link[aria-current="location"] .nav-num { background: var(--cp-surface); border-color: var(--cp-station); color: var(--cp-station); }
     .nav-link.done .nav-num { color: var(--cp-accent); background: var(--cp-accent-soft); border-color: var(--cp-accent); }
     .nav-title { display: block; font-size: 13px; line-height: 1.35; font-weight: 600; }
     .nav-sub { display: block; font-size: 10px; margin-top: 5px; color: var(--cp-text-soft); }
-    .app-status { position: relative; border-top: 1px solid var(--cp-border); background: var(--cp-bg-elevated); padding: 6px 24px; font-size: 11px; color: var(--cp-text-muted); display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-    .app-status > p { flex: 1; }
+    .app-status { border-top: 1px solid var(--cp-border); margin: 24px 12px 0; padding-top: 20px; font-size: 12px; color: var(--cp-text-muted); }
+    .app-status > p { margin-bottom: 14px; }
     .progress-note { color: var(--cp-text-soft); }
     .text-button { border: 0; background: var(--cp-clear); color: var(--cp-text-muted); padding: 0; text-decoration: underline; text-underline-offset: 3px; font-size: 12px; }
-    .reset-panel { position: absolute; right: 24px; bottom: calc(100% + 8px); z-index: 20; max-width: 340px; padding: 16px; border: 1px solid var(--cp-border-strong); border-radius: 10px; background: var(--cp-surface); }
+    .reset-panel { margin-top: 12px; padding: 12px; border: 1px solid var(--cp-border-strong); border-radius: 10px; background: var(--cp-surface); }
     .reset-actions { display: flex; gap: 16px; margin-top: 8px; }
-    main { min-width: 0; min-height: 0; height: 100%; overflow: hidden; }
-    .activity-panel { height: 100%; overflow: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
-    .start-panel { padding: 0 24px 24px; }
+    main { min-width: 0; padding-bottom: 32px; }
     .hero { padding: 24px 0; display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 24px 40px; align-items: start; }
     .hero-intro { min-width: 0; }
     .hero > .journey-title, .hero > .journey { grid-column: 1 / -1; }
@@ -187,12 +185,15 @@
     .kit-file { background: var(--cp-bg-elevated); border: 1px solid var(--cp-border); border-radius: 10px; padding: 16px; }
     .kit-file strong { font-size: 13px; display: block; margin: 8px 0; }
     .filename { display: block; font: 11px/1.65 Consolas, "Courier New", Courier, monospace; overflow-wrap: anywhere; color: var(--cp-text-muted); }
+    .download-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; padding: 8px 12px; border: 1px solid var(--cp-station); border-radius: 6px; color: var(--cp-station); font-size: 12px; font-weight: 600; text-decoration: none; }
+    .download-link:hover { background: var(--cp-wash); }
+    .setup a.filename { color: var(--cp-link); text-decoration: underline; }
     .app { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; color: var(--cp-station); }
     .app-icon { width: 26px; height: 28px; display: grid; place-items: center; background: var(--cp-station); color: var(--cp-surface); border-radius: 4px; font-size: 15px; font-weight: 700; }
     .word { --cp-station: var(--cp-word); --cp-wash: var(--cp-word-soft); }
     .excel { --cp-station: var(--cp-excel); --cp-wash: var(--cp-excel-soft); }
     .powerpoint { --cp-station: var(--cp-powerpoint); --cp-wash: var(--cp-powerpoint-soft); }
-    .station { border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface); }
+    .station { margin-top: 32px; border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface); }
     .station-head { background: linear-gradient(120deg, var(--cp-wash), var(--cp-surface)); padding: 20px 28px; border-bottom: 1px solid var(--cp-border); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px 24px; align-items: center; }
     .station-meta { display: flex; justify-content: space-between; gap: 24px; align-items: center; grid-column: 1 / -1; }
     .station-meta .eyebrow { color: var(--cp-station); }
@@ -205,7 +206,7 @@
     .skill-line > span + span { border-left: 1px solid var(--cp-border); padding-left: 16px; }
     .station-body { padding: 24px 32px; display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 24px 32px; align-items: start; }
     .station-context, .station-work { min-width: 0; }
-    .station-body > .dependency-nudge, .station-body > .station-footer { grid-column: 1 / -1; margin: 0; }
+    .station-body > .station-footer { grid-column: 1 / -1; margin: 0; }
     .narrative p { font-size: 15px; max-width: 790px; }
     .narrative p + p { margin-top: 14px; }
     .setup { margin-top: 24px; padding: 20px 24px; background: var(--cp-surface-soft); border-radius: 10px; border-left: 3px solid var(--cp-station); }
@@ -258,12 +259,15 @@
     .materialize { animation: materialize 550ms ease-out both; }
     @keyframes materialize { from { opacity: 0.4; transform: translateY(12px) scale(0.993); filter: blur(2px); } to { opacity: 1; transform: none; filter: none; } }
     @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
       *, *::before, *::after { animation: none !important; transition: none !important; }
     }
+    @media (max-width: 1400px) {
+      .hero, .station-body, .station-head { grid-template-columns: minmax(0, 1fr); }
+    }
     @media (max-width: 1100px) {
-      .layout { padding: 12px 24px; }
+      .layout { padding: 24px; grid-template-columns: 200px minmax(0, 1fr); gap: 24px; }
       .topbar-inner { padding: 0 24px; }
-      .tablist { padding: 10px 24px; gap: 4px; }
       .nav-link { gap: 8px; padding: 10px 8px; }
       .nav-sub { font-size: 9px; }
       .station-body { gap: 24px; }
@@ -274,12 +278,13 @@
       .hero { grid-template-columns: minmax(0, 1fr); }
     }
     @media (max-width: 720px) {
-      .layout { padding: 8px; }
-      .tablist { padding: 8px; gap: 4px; }
-      .nav-link { flex-direction: column; align-items: flex-start; gap: 4px; }
-      .nav-title { font-size: 10px; }
-      .nav-sub, .top-meta > span:first-child, .progress-note { display: none; }
-      .app-status { padding: 8px 16px; }
+      .layout { padding: 16px; display: block; }
+      .sidebar { position: static; max-height: none; margin-bottom: 24px; }
+      .station-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .nav-link { padding: 10px 6px; gap: 8px; }
+      .nav-title { font-size: 12px; }
+      .nav-sub, .top-meta > span:first-child { display: none; }
+      .app-status { margin: 16px 0 0; padding-top: 16px; }
       .station-body { grid-template-columns: minmax(0, 1fr); }
       .hero { padding-top: 24px; }
       .topbar-inner { padding: 0 20px; }
@@ -293,50 +298,6 @@
       .prompt-header { padding: 12px; gap: 8px; flex-wrap: wrap; }
       .prompt-header h4 { min-width: 100px; }
       .run-heading, .station-footer, .page-footer { flex-wrap: wrap; }
-    }
-    /* Viewport height here is the host's iframe height, not the physical display height. */
-    @media (max-height: 650px) and (min-width: 1101px) {
-      .topbar { height: 32px; }
-      .brand { gap: 8px; }
-      .brand-mark { padding: 5px; }
-      .brand strong { font-size: 13px; }
-      .brand span small { display: none; }
-      .tablist { padding: 4px 16px; gap: 8px; }
-      .nav-link { padding: 4px 10px; gap: 8px; }
-      .nav-num { width: 24px; height: 24px; }
-      .nav-title { font-size: 12px; }
-      .nav-sub { margin-top: 2px; }
-      .layout { padding: 6px 16px; }
-      .app-status { padding: 3px 16px; }
-      .start-panel { padding: 0 16px 16px; }
-      .hero { padding: 12px 0; gap: 16px 24px; }
-      .hero-kicker { margin-bottom: 8px; }
-      h1 { font-size: 40px; letter-spacing: -1.5px; }
-      h1 .title-prefix { font-size: 20px; margin-bottom: 4px; letter-spacing: -0.5px; }
-      .tagline { margin-top: 8px; font-size: 16px; }
-      .hero-tags { margin-top: 10px; gap: 6px; }
-      .tag { padding: 3px 8px; }
-      .hero-actions { margin-top: 12px; gap: 8px 16px; }
-      .primary { padding: 7px 16px; }
-      .brief { padding: 16px 20px; }
-      .brief > p { font-size: 14px; line-height: 1.6; }
-      .brief > p + p { margin-top: 12px; }
-      .brief .eyebrow { margin-bottom: 8px; }
-      .brief details { margin-top: 12px; padding-top: 12px; }
-      .journey-card { padding: 12px; }
-      .journey-card .app { margin: 8px 0; }
-      .station-head { padding: 10px 20px; gap: 6px 20px; }
-      .station h2 { font-size: 24px; padding: 0; }
-      .station-heading { gap: 12px; }
-      .big-number { font-size: 32px; }
-      .story-date { margin-top: 4px; }
-      .station-body { padding: 16px 20px; gap: 20px; }
-      .narrative p { font-size: 14px; line-height: 1.6; }
-      .setup { padding: 16px; margin-top: 16px; }
-      .prompt-header { padding: 10px 14px; }
-      .prompt-text { padding: 12px 14px; font-size: 13px; line-height: 1.7; }
-      .prompt-help { padding: 10px 14px; }
-      .toast { bottom: 40px; padding: 8px 16px; }
     }
   </style>
 </head>
@@ -354,14 +315,29 @@
       </div>
     </div>
   </header>
-  <nav class="tabbar" aria-label="Activity">
-    <div class="tablist" id="station-nav" role="tablist" aria-label="Start and stations">
-      <button type="button" class="nav-link" id="nav-welcome" role="tab" aria-selected="true" aria-controls="welcome"><span class="nav-num" aria-hidden="true">00</span><span><span class="nav-title">Start here</span><span class="nav-sub">The story &amp; your files</span></span></button>
-    </div>
-  </nav>
   <div class="layout">
-    <main id="main">
-      <div class="activity-panel start-panel" id="welcome" role="tabpanel" aria-labelledby="nav-welcome" tabindex="0">
+    <aside class="sidebar" aria-label="Activity navigation and progress">
+      <p class="eyebrow">Your itinerary</p>
+      <nav class="station-nav" id="station-nav" aria-label="Start and stations">
+        <a class="nav-link" id="nav-welcome" href="#welcome" aria-current="location"><span class="nav-num" aria-hidden="true">00</span><span><span class="nav-title">Start here</span><span class="nav-sub">The story &amp; your files</span></span></a>
+      </nav>
+      <div class="app-status">
+        <p><a href="#prerequisites">Download the starting kit ↓</a></p>
+        <p><strong>At your own pace.</strong><br>Jump to any station. Nothing is locked.</p>
+        <p id="storage-status" role="status">Progress stays in this browser.</p>
+        <p class="progress-note">Checkmarks track copied prompts, not Copilot results.</p>
+        <button type="button" class="text-button" id="reset-open" aria-expanded="false" aria-controls="reset-panel">Reset my progress</button>
+        <div class="reset-panel" id="reset-panel" hidden>
+          <p>Clear this activity's copied prompts and report-saved checkmark? Your files are not affected.</p>
+          <div class="reset-actions">
+            <button type="button" class="text-button" id="reset-confirm">Reset</button>
+            <button type="button" class="text-button" id="reset-cancel">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <main id="main" tabindex="-1">
+      <div id="welcome">
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-intro">
         <div class="hero-kicker"><span class="line" aria-hidden="true"></span><span class="eyebrow">One crisis. Four stations. Your Copilot.</span></div>
@@ -377,45 +353,34 @@
           <details open>
             <summary>This isn't a scripted demo</summary>
             <p>This isn't a scripted demo. Every prompt here is one you can actually run, on the actual files, and get a real result. Copy it, paste it, watch what happens. If you want to go off-script and try your own prompt instead, do it — that's the point.</p>
-            <p><strong>What you'll need:</strong> just this page and the three source files in the files panel. No login beyond your own Copilot license. Work through all four stations in one sitting, or bookmark this page and come back whenever — nothing here expires.</p>
+            <p><strong>What you'll need:</strong> just this page and the three source files in the starting kit below. No login beyond your own Copilot license. Work through all four stations in one sitting, or bookmark this page and come back whenever — nothing here expires.</p>
           </details>
         </div>
         <div class="journey-title"><h2>Four stations, one story</h2><span>AUG 14 → SEP 9, 2026</span></div>
         <div class="journey" id="journey"></div>
       </section>
-      <section class="getting-ready" aria-labelledby="ready-title">
+      <section class="getting-ready" id="prerequisites" aria-labelledby="ready-title">
         <h2 id="ready-title">Your starting kit</h2>
-        <p>Grab these three originals from the Seismic files panel alongside this activity. Work on your own copies; leave the shared originals unchanged. This page doesn't open, upload, or download your files.</p>
+        <p>Download these three source files to begin. Keep the originals and work on your own copies. Downloads require no sign-in; you'll use your own Microsoft 365 Copilot access to complete the activity. Your working files are never uploaded to this site.</p>
         <div class="file-kit">
-          <div class="kit-file word"><span class="app"><span class="app-icon" aria-hidden="true">W</span>Word</span><strong>The meeting transcript</strong><span class="filename">SISCC_August2026_Monthly_Meeting.docx</span></div>
-          <div class="kit-file excel"><span class="app"><span class="app-icon" aria-hidden="true">X</span>Excel</span><strong>The provisions ledger</strong><span class="filename">Project_Bacon_Fleet_Provisions_Ledger.xlsx</span></div>
-          <div class="kit-file word"><span class="app"><span class="app-icon" aria-hidden="true">W</span>Word</span><strong>The blank report template</strong><span class="filename">Project_Bacon_Crisis_Report_Template.docx</span></div>
+          <div class="kit-file word"><span class="app"><span class="app-icon" aria-hidden="true">W</span>Word</span><strong>The meeting transcript</strong><span class="filename">SISCC_August2026_Monthly_Meeting.docx</span><a class="download-link" href="./assets/SISCC_August2026_Monthly_Meeting.docx" download="SISCC_August2026_Monthly_Meeting.docx">Download transcript · DOCX ↓</a></div>
+          <div class="kit-file excel"><span class="app"><span class="app-icon" aria-hidden="true">X</span>Excel</span><strong>The provisions ledger</strong><span class="filename">Project_Bacon_Fleet_Provisions_Ledger.xlsx</span><a class="download-link" href="./assets/Project_Bacon_Fleet_Provisions_Ledger.xlsx" download="Project_Bacon_Fleet_Provisions_Ledger.xlsx">Download ledger · XLSX ↓</a></div>
+          <div class="kit-file word"><span class="app"><span class="app-icon" aria-hidden="true">W</span>Word</span><strong>The blank report template</strong><span class="filename">Project_Bacon_Crisis_Report_Template.docx</span><a class="download-link" href="./assets/Project_Bacon_Crisis_Report_Template.docx" download="Project_Bacon_Crisis_Report_Template.docx">Download template · DOCX ↓</a></div>
         </div>
         <p><strong>Keep this page beside your Microsoft 365 apps.</strong> Open the named file, open Copilot, then copy and run the station's prompts in order in the same conversation. Wait for each response before continuing. You need access to Copilot in Word, Excel, and PowerPoint; the activity page itself needs no sign-in.</p>
         <details><summary>Before you run a prompt</summary><p>Save editable working copies to your work OneDrive or SharePoint if your app requires it. Use Copilot's file or source picker to attach the named originals; controls vary by app and rollout. If a source cannot be attached, or Copilot cannot edit your file, resolve that access or capability issue before continuing. Do not assume a filename typed into a prompt attaches the file. Review generated facts and numbers against the sources. This fictional exercise contains no real customer data.</p></details>
       </section>
-      <noscript><div class="brief"><strong>JavaScript is required for the stations and copy buttons.</strong><p>Open this HTML file in a browser with JavaScript enabled. If the embedded viewer blocks scripts, ask the content owner for a script-enabled way to open the activity.</p></div></noscript>
-      <footer class="page-footer"><span>The Copilot Trek: Project Bacon</span><span>Fictional scenario. Real skills. No data leaves this page.</span></footer>
+      <noscript><div class="brief"><strong>JavaScript is required for the stations and copy buttons.</strong><p>Enable JavaScript in your browser to run the activity. The starting-kit download links still work without it.</p></div></noscript>
       </div>
-      <section class="closing" id="closing" aria-labelledby="closing-title" hidden>
+      <div id="stations"></div>
+      <section class="closing" id="closing" aria-labelledby="closing-title">
         <p class="eyebrow">Closing section · copy pending</p>
         <h2 id="closing-title">Wrap-up</h2>
         <code>[CLOSING BLURB PLACEHOLDER]</code>
       </section>
+      <footer class="page-footer"><span>The Copilot Trek: Project Bacon</span><span>Fictional scenario. Real skills. Your working files stay with you.</span><a href="#welcome">Back to top ↑</a></footer>
     </main>
   </div>
-  <footer class="app-status">
-    <p id="storage-status" role="status">Progress stays in this browser.</p>
-    <span class="progress-note">All stations unlocked · Checkmarks track copied prompts, not Copilot results.</span>
-    <button type="button" class="text-button" id="reset-open" aria-expanded="false" aria-controls="reset-panel">Reset my progress</button>
-    <div class="reset-panel" id="reset-panel" hidden>
-      <p>Clear this activity's copied prompts and report-saved checkmark? Your files are not affected.</p>
-      <div class="reset-actions">
-        <button type="button" class="text-button" id="reset-confirm">Reset</button>
-        <button type="button" class="text-button" id="reset-cancel">Cancel</button>
-      </div>
-    </div>
-  </footer>
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
   <script>
     (() => {
@@ -423,6 +388,7 @@
       const transcript = "SISCC_August2026_Monthly_Meeting.docx";
       const ledger = "Project_Bacon_Fleet_Provisions_Ledger.xlsx";
       const template = "Project_Bacon_Crisis_Report_Template.docx";
+      const assetNames = new Set([transcript, ledger, template]);
       const stations = [
         {
           id: "station-1-meeting", app: "word", appName: "Word", appLetter: "W",
@@ -476,7 +442,7 @@
             "You've got the meeting notes and the cleaned data. Now someone has to write the actual report — the kind that used to take an afternoon of copy-pasting between five browser tabs.",
             "This template has the sections a real crisis report needs, but every one of them is blank. Attach both source files, give Copilot one instruction, and watch it write the whole thing in a single pass. Then push it further on the one section that benefits most from precision."
           ],
-          setup: "Open your own copy of the blank report template in Word. In Copilot, attach the original transcript and original ledger from the files panel. You do not need your recap or cleaned workbook from Stations 1–2.",
+          setup: "Download the files linked below. Open your own copy of the blank report template in Word. In Copilot, attach the original transcript and original ledger. You do not need your recap or cleaned workbook from Stations 1–2.",
           inputNote: 'Fresh-source note: the authored prompt below says "cleaned provisions ledger." Here, the source is the original ledger: ask Copilot to normalize its dates and costs in this context before using them if needed. Do not assume your Station 2 changes carried over.',
           prompts: [
             {title: "One-shot fill", required: true, text: "Using the attached meeting transcript and the cleaned provisions ledger, fill in every section of this template. Keep the tone factual and executive-level.", help: "Review every section. If Copilot answers only in chat, insert the reviewed draft into your template before saving."},
@@ -506,8 +472,8 @@
 
       const storageKey = "copilot-trek-project-bacon:v1";
       const promptIds = new Set(stations.flatMap(station => station.prompts.map((_, i) => `${station.id}-prompt-${i + 1}`)));
-      const panelIds = ["welcome", ...stations.map(station => station.id)];
-      const initialState = () => ({version: 1, used: [], reportSaved: false, activePanel: "welcome"});
+      const sectionIds = ["welcome", ...stations.map(station => station.id)];
+      const initialState = () => ({version: 1, used: [], reportSaved: false});
       let state = initialState();
       let storageAvailable = true;
       let storageMessage = "Progress stays in this browser. No account or cloud sync.";
@@ -552,7 +518,7 @@
         }
         state = {
           version: 1, used: [...new Set(saved.used.filter(id => promptIds.has(id)))],
-          reportSaved: saved.reportSaved, activePanel: panelIds.includes(saved.activePanel) ? saved.activePanel : "welcome"
+          reportSaved: saved.reportSaved
         };
       }
       function persist() {
@@ -614,7 +580,7 @@
         if (!panel) {
           panel = element("div", "manual-copy");
           panel.id = `manual-${id}`;
-          panel.append(element("p", "", "Automatic copy is unavailable in this viewer. Select the text below and press Ctrl+C (Windows) or Command+C (Mac), then confirm you copied it."));
+          panel.append(element("p", "", "Automatic copy is unavailable in this browser. Select the text below and press Ctrl+C (Windows) or Command+C (Mac), then confirm you copied it."));
           const text = element("textarea");
           text.value = prompt.text;
           text.readOnly = true;
@@ -692,13 +658,9 @@
         byId("prompt-count").textContent = `${count} prompts · ${optional} optional`;
         stations.forEach((station, index) => {
           const number = String(index + 1).padStart(2, "0");
-          const nav = element("button", `nav-link ${station.app}`);
-          nav.type = "button";
+          const nav = element("a", `nav-link ${station.app}`);
           nav.id = `nav-${station.id}`;
-          nav.setAttribute("role", "tab");
-          nav.setAttribute("aria-controls", station.id);
-          nav.setAttribute("aria-selected", "false");
-          nav.tabIndex = -1;
+          nav.href = `#${station.id}`;
           const navNumber = element("span", "nav-num", number);
           navNumber.setAttribute("aria-hidden", "true");
           const navText = element("span");
@@ -709,12 +671,9 @@
           journey.href = `#${station.id}`;
           journey.append(element("small", "", `STATION ${number} · ${station.shortDate}`), appBadge(station), element("strong", "", station.title), element("p", "", station.summary));
           byId("journey").append(journey);
-          const section = element("section", `activity-panel station ${station.app}`);
+          const section = element("section", `station ${station.app}`);
           section.id = station.id;
-          section.setAttribute("role", "tabpanel");
-          section.setAttribute("aria-labelledby", nav.id);
-          section.tabIndex = 0;
-          section.hidden = true;
+          section.setAttribute("aria-labelledby", `${station.id}-title`);
           const head = element("div", "station-head");
           const meta = element("div", "station-meta");
           meta.append(element("span", "eyebrow", `Station ${number} / ${station.skill}`), element("span", "station-time", `${station.minutes} MIN`));
@@ -748,7 +707,14 @@
           const fileList = element("ul");
           station.sourceFiles.forEach(file => {
             const li = element("li");
-            li.append(element("span", "filename", file.name), document.createTextNode(` — ${file.role}`));
+            const downloadable = assetNames.has(file.name);
+            const name = element(downloadable ? "a" : "span", "filename", file.name);
+            if (downloadable) {
+              name.href = `./assets/${encodeURIComponent(file.name)}`;
+              name.download = file.name;
+              name.setAttribute("aria-label", `Download ${file.name}`);
+            }
+            li.append(name, document.createTextNode(` — ${file.role}${downloadable ? " · Download ↓" : ""}`));
             fileList.append(li);
           });
           setup.append(fileList, element("p", "", station.inputNote));
@@ -783,87 +749,59 @@
             save.append(label);
             work.append(save);
           }
-          if (index === stations.length - 1) {
-            const closing = byId("closing");
-            closing.hidden = false;
-            work.append(closing);
-          }
           const footer = element("div", "station-footer");
           const status = element("span");
           status.id = `status-${station.id}`;
           const next = stations[index + 1];
-          const nextLink = element("a", "next-link", next ? `Station ${index + 2}: ${next.skill} →` : "Back to start →");
-          nextLink.href = next ? `#${next.id}` : "#welcome";
+          const nextLink = element("a", "next-link", next ? `Station ${index + 2}: ${next.skill} →` : "To wrap-up →");
+          nextLink.href = next ? `#${next.id}` : "#closing";
           footer.append(status, nextLink);
           body.append(footer);
           section.append(head, body);
-          byId("main").append(section);
+          byId("stations").append(section);
         });
-      }
-      function activatePanel(id, {focusPanel = false, save = true} = {}) {
-        if (!panelIds.includes(id)) {
-          console.warn("Project Bacon could not open an unknown panel.", id);
-          notify("That station isn't available. Choose a tab above.");
-          return;
-        }
-        const panel = byId(id);
-        const changed = panel.hidden;
-        panelIds.forEach(panelId => {
-          const selected = panelId === id;
-          byId(panelId).hidden = !selected;
-          const tab = byId(`nav-${panelId}`);
-          tab.setAttribute("aria-selected", String(selected));
-          tab.tabIndex = selected ? 0 : -1;
-        });
-        if (changed) {
-          panel.scrollTop = 0;
-          panel.classList.remove("materialize");
-          // Restart the reveal on selection, independent of host/window scroll events.
-          void panel.offsetWidth;
-          panel.classList.add("materialize");
-        }
-        state.activePanel = id;
-        if (save) {
-          persist();
-          byId("storage-status").textContent = storageMessage;
-        }
-        if (focusPanel) panel.focus({preventScroll: true});
       }
       function setUpNavigation() {
-        const tabs = [...document.querySelectorAll('#station-nav [role="tab"]')];
-        tabs.forEach((tab, index) => {
-          tab.addEventListener("click", () => activatePanel(panelIds[index]));
-          tab.addEventListener("keydown", event => {
-            let next;
-            if (event.key === "ArrowRight") next = (index + 1) % tabs.length;
-            else if (event.key === "ArrowLeft") next = (index + tabs.length - 1) % tabs.length;
-            else if (event.key === "Home") next = 0;
-            else if (event.key === "End") next = tabs.length - 1;
-            else return;
-            event.preventDefault();
-            activatePanel(panelIds[next]);
-            tabs[next].focus({preventScroll: true});
+        const sections = sectionIds.map(byId);
+        const links = [...document.querySelectorAll("#station-nav a")];
+        let scheduled = false;
+        function highlightCurrent() {
+          scheduled = false;
+          let current = sections[0];
+          sections.forEach(section => {
+            if (section.getBoundingClientRect().top <= 128) current = section;
           });
+          links.forEach(link => {
+            if (link.hash === `#${current.id}`) link.setAttribute("aria-current", "location");
+            else link.removeAttribute("aria-current");
+          });
+        }
+        window.addEventListener("scroll", () => {
+          if (!scheduled) {
+            scheduled = true;
+            requestAnimationFrame(highlightCurrent);
+          }
+        }, {passive: true});
+        window.addEventListener("resize", highlightCurrent);
+        if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("materialize");
+                observer.unobserve(entry.target);
+              }
+            });
+          }, {rootMargin: "0px 0px -24px 0px"});
+          document.querySelectorAll(".station").forEach(section => observer.observe(section));
+        }
+        // Restore deep links after the data-driven station sections exist.
+        const targetId = window.location.hash.slice(1);
+        requestAnimationFrame(() => {
+          if ([...sectionIds, "prerequisites", "closing", "main"].includes(targetId)) {
+            byId(targetId).scrollIntoView({behavior: "instant"});
+          }
+          highlightCurrent();
         });
-        document.addEventListener("click", event => {
-          const link = event.target instanceof Element ? event.target.closest('a[href^="#"]') : null;
-          if (!link) return;
-          const id = link.getAttribute("href").slice(1);
-          const target = id === "main" ? state.activePanel : id;
-          if (!panelIds.includes(target)) return;
-          event.preventDefault();
-          activatePanel(target, {focusPanel: true});
-        });
-        // Existing station bookmarks remain usable; switching tabs never scrolls the host.
-        const hashPanel = () => {
-          const id = window.location.hash.slice(1);
-          return id === "closing" ? stations[stations.length - 1].id : panelIds.includes(id) ? id : null;
-        };
-        window.addEventListener("hashchange", () => {
-          const id = hashPanel();
-          if (id) activatePanel(id, {focusPanel: true});
-        });
-        activatePanel(hashPanel() || state.activePanel, {save: false});
       }
       function toggleReset(open) {
         byId("reset-panel").hidden = !open;
@@ -874,7 +812,7 @@
       byId("reset-open").addEventListener("click", () => toggleReset(byId("reset-panel").hidden));
       byId("reset-cancel").addEventListener("click", () => toggleReset(false));
       byId("reset-confirm").addEventListener("click", () => {
-        state = {...initialState(), activePanel: state.activePanel};
+        state = initialState();
         persist();
         renderProgress();
         document.querySelectorAll(".manual-copy").forEach(panel => { panel.hidden = true; });
