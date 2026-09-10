@@ -1,0 +1,891 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Four stations. One story. A self-guided, hands-on Copilot activity across Word, Excel, and PowerPoint.">
+  <link rel="icon" href="data:,">
+  <title>The Copilot Trek: Project Bacon</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme = param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+    // This activity's delivery specification intentionally fixes the presentation to daylight.
+    document.documentElement.setAttribute("data-theme", "light");
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+    :root {
+      /* Office tints are intentional wayfinding colors from the activity's build spec. */
+      --cp-word: #2B579A;
+      --cp-word-soft: #eef3fa;
+      --cp-excel: #217346;
+      --cp-excel-soft: #edf6ef;
+      --cp-powerpoint: #D24726;
+      --cp-powerpoint-soft: #fcf0eb;
+      --cp-clear: transparent;
+      --cp-station: var(--cp-word);
+      --cp-wash: var(--cp-word-soft);
+    }
+    * { box-sizing: border-box; }
+    html { height: 100%; overflow: hidden; }
+    body {
+      margin: 0; height: 100vh; height: 100dvh; overflow: hidden;
+      display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      font: 16px/1.65 "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    button, input, textarea { font: inherit; }
+    button, a, input { -webkit-tap-highlight-color: var(--cp-clear); }
+    button { cursor: pointer; }
+    a { color: var(--cp-link); text-underline-offset: 4px; }
+    :focus-visible { outline: 3px solid var(--cp-accent); outline-offset: 5px; }
+    [hidden] { display: none !important; }
+    h1, h2, h3, h4, p { margin: 0; }
+    h1, h2, h3, h4 { line-height: 1.15; }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+    }
+    .skip-link { position: fixed; top: -100px; left: 24px; z-index: 30; padding: 12px; background: var(--cp-surface); }
+    .skip-link:focus { top: 12px; }
+    .topbar {
+      height: 64px;
+      border-bottom: 1px solid var(--cp-border); background: var(--cp-bg-elevated);
+    }
+    .topbar-inner {
+      max-width: 1800px; height: 100%; margin: auto; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    }
+    .brand { text-decoration: none; color: var(--cp-text); display: flex; align-items: center; gap: 12px; }
+    .brand-mark {
+      display: grid; grid-template-columns: repeat(2, 7px); gap: 3px;
+      padding: 11px; border: 1px solid var(--cp-border); border-radius: 10px;
+    }
+    .brand-mark i { width: 7px; height: 7px; background: var(--cp-accent); border-radius: 2px; }
+    .brand strong { font-size: 15px; font-weight: 650; }
+    .brand span small { display: block; color: var(--cp-text-muted); font-size: 11px; letter-spacing: 1.5px; line-height: 1.3; }
+    .top-meta { display: flex; gap: 24px; align-items: center; color: var(--cp-text-muted); font-size: 12px; }
+    .top-progress-label { min-width: 100px; }
+    .layout { width: 100%; max-width: 1800px; min-height: 0; margin: 0 auto; padding: 12px 24px; }
+    .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--cp-text-muted); }
+    .tabbar { background: var(--cp-bg-elevated); border-bottom: 1px solid var(--cp-border); }
+    .tablist { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; max-width: 1800px; margin: auto; padding: 10px 24px; }
+    .nav-link {
+      display: flex; align-items: center; gap: 12px; text-align: left; color: var(--cp-text-muted);
+      padding: 12px; border-radius: 10px; border: 1px solid var(--cp-clear); background: var(--cp-clear); min-width: 0;
+    }
+    .nav-link:hover { background: var(--cp-surface-soft); color: var(--cp-text); }
+    .nav-link[aria-selected="true"] { background: var(--cp-wash); border-color: var(--cp-station); color: var(--cp-text); }
+    .nav-num {
+      display: grid; place-items: center; flex-shrink: 0; width: 28px; height: 28px;
+      border: 1px solid var(--cp-border); border-radius: 50%; font-size: 11px; font-weight: 650;
+    }
+    .nav-link[aria-selected="true"] .nav-num { background: var(--cp-surface); border-color: var(--cp-station); color: var(--cp-station); }
+    .nav-link.done .nav-num { color: var(--cp-accent); background: var(--cp-accent-soft); border-color: var(--cp-accent); }
+    .nav-title { display: block; font-size: 13px; line-height: 1.35; font-weight: 600; }
+    .nav-sub { display: block; font-size: 10px; margin-top: 5px; color: var(--cp-text-soft); }
+    .app-status { position: relative; border-top: 1px solid var(--cp-border); background: var(--cp-bg-elevated); padding: 6px 24px; font-size: 11px; color: var(--cp-text-muted); display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .app-status > p { flex: 1; }
+    .progress-note { color: var(--cp-text-soft); }
+    .text-button { border: 0; background: var(--cp-clear); color: var(--cp-text-muted); padding: 0; text-decoration: underline; text-underline-offset: 3px; font-size: 12px; }
+    .reset-panel { position: absolute; right: 24px; bottom: calc(100% + 8px); z-index: 20; max-width: 340px; padding: 16px; border: 1px solid var(--cp-border-strong); border-radius: 10px; background: var(--cp-surface); }
+    .reset-actions { display: flex; gap: 16px; margin-top: 8px; }
+    main { min-width: 0; min-height: 0; height: 100%; overflow: hidden; }
+    .activity-panel { height: 100%; overflow: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
+    .start-panel { padding: 0 24px 24px; }
+    .hero { padding: 24px 0; display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 24px 40px; align-items: start; }
+    .hero-intro { min-width: 0; }
+    .hero > .journey-title, .hero > .journey { grid-column: 1 / -1; }
+    .hero-kicker { display: flex; gap: 12px; align-items: center; margin-bottom: 24px; }
+    .hero-kicker .line { width: 32px; height: 2px; background: var(--cp-accent); }
+    h1 { font-size: clamp(48px, 4.5vw, 72px); letter-spacing: -3px; font-weight: 600; }
+    h1 .title-prefix { font-size: 0.53em; letter-spacing: -1px; display: block; margin-bottom: 8px; font-weight: 400; }
+    h1 .title-main { color: var(--cp-accent); }
+    .tagline { max-width: 630px; margin-top: 24px; font-size: 20px; line-height: 1.5; color: var(--cp-text-muted); }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .tag { font-size: 11px; font-weight: 600; padding: 5px 10px; border: 1px solid var(--cp-border); border-radius: 6px; background: var(--cp-bg-elevated); }
+    .brief { padding: 24px 28px; background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 16px; }
+    .brief .eyebrow { margin-bottom: 16px; color: var(--cp-accent); }
+    .brief > p + p { margin-top: 16px; }
+    .brief > p { max-width: 780px; font-size: 15px; }
+    .brief details { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--cp-border); }
+    summary { cursor: pointer; color: var(--cp-text); font-size: 13px; font-weight: 600; }
+    details p { margin-top: 12px; font-size: 14px; color: var(--cp-text-muted); }
+    .journey-title { margin: 8px 0 -8px; display: flex; justify-content: space-between; align-items: center; }
+    .journey-title h2 { font-size: 16px; font-weight: 600; }
+    .journey-title span { font-size: 11px; color: var(--cp-text-muted); }
+    .journey { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .journey-card { position: relative; padding: 18px 16px; background: var(--cp-surface); border: 1px solid var(--cp-border); border-top: 3px solid var(--cp-station); border-radius: 10px; color: var(--cp-text); text-decoration: none; transition: transform 160ms; }
+    .journey-card:hover { transform: translateY(-3px); }
+    .journey-card small { font-size: 10px; display: block; color: var(--cp-text-muted); }
+    .journey-card .app { margin: 14px 0 12px; }
+    .journey-card strong { display: block; font-size: 13px; line-height: 1.4; }
+    .journey-card p { font-size: 11px; line-height: 1.5; margin-top: 8px; color: var(--cp-text-muted); }
+    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 24px; }
+    .primary { display: inline-flex; gap: 20px; align-items: center; padding: 11px 20px; border-radius: 10px; border: 1px solid var(--cp-accent); background: var(--cp-accent); color: var(--cp-accent-fg); text-decoration: none; font-size: 13px; font-weight: 600; }
+    .primary:hover { background: var(--cp-accent-hover); }
+    .hero-actions > span { font-size: 12px; color: var(--cp-text-muted); }
+    .getting-ready { padding: 28px 0 36px; border-top: 1px solid var(--cp-border); }
+    .getting-ready h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.5px; }
+    .getting-ready > p { font-size: 14px; margin-top: 12px; color: var(--cp-text-muted); max-width: 780px; }
+    .file-kit { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 20px; }
+    .kit-file { background: var(--cp-bg-elevated); border: 1px solid var(--cp-border); border-radius: 10px; padding: 16px; }
+    .kit-file strong { font-size: 13px; display: block; margin: 8px 0; }
+    .filename { display: block; font: 11px/1.65 Consolas, "Courier New", Courier, monospace; overflow-wrap: anywhere; color: var(--cp-text-muted); }
+    .app { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; color: var(--cp-station); }
+    .app-icon { width: 26px; height: 28px; display: grid; place-items: center; background: var(--cp-station); color: var(--cp-surface); border-radius: 4px; font-size: 15px; font-weight: 700; }
+    .word { --cp-station: var(--cp-word); --cp-wash: var(--cp-word-soft); }
+    .excel { --cp-station: var(--cp-excel); --cp-wash: var(--cp-excel-soft); }
+    .powerpoint { --cp-station: var(--cp-powerpoint); --cp-wash: var(--cp-powerpoint-soft); }
+    .station { border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface); }
+    .station-head { background: linear-gradient(120deg, var(--cp-wash), var(--cp-surface)); padding: 20px 28px; border-bottom: 1px solid var(--cp-border); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px 24px; align-items: center; }
+    .station-meta { display: flex; justify-content: space-between; gap: 24px; align-items: center; grid-column: 1 / -1; }
+    .station-meta .eyebrow { color: var(--cp-station); }
+    .station-time { font-size: 11px; color: var(--cp-text-muted); }
+    .station-heading { display: flex; align-items: flex-start; gap: 20px; }
+    .big-number { font-size: 48px; line-height: 1; font-weight: 300; color: var(--cp-station); letter-spacing: -2px; }
+    .station h2 { font-size: 31px; font-weight: 600; letter-spacing: -0.8px; padding-top: 2px; }
+    .story-date { color: var(--cp-text-muted); font-size: 12px; margin-top: 10px; }
+    .skill-line { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; font-size: 12px; color: var(--cp-text-muted); }
+    .skill-line > span + span { border-left: 1px solid var(--cp-border); padding-left: 16px; }
+    .station-body { padding: 24px 32px; display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 24px 32px; align-items: start; }
+    .station-context, .station-work { min-width: 0; }
+    .station-body > .dependency-nudge, .station-body > .station-footer { grid-column: 1 / -1; margin: 0; }
+    .narrative p { font-size: 15px; max-width: 790px; }
+    .narrative p + p { margin-top: 14px; }
+    .setup { margin-top: 24px; padding: 20px 24px; background: var(--cp-surface-soft); border-radius: 10px; border-left: 3px solid var(--cp-station); }
+    .setup h3 { font-size: 13px; margin-bottom: 10px; }
+    .setup p, .setup li { font-size: 13px; color: var(--cp-text-muted); }
+    .setup ul { margin: 10px 0; padding-left: 20px; }
+    .setup .filename { font-size: 12px; display: inline; }
+    .setup p + p { margin-top: 10px; }
+    .run-heading { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 20px; margin: 0 0 12px; }
+    .run-heading h3 { font-size: 15px; font-weight: 600; }
+    .run-heading p { font-size: 11px; color: var(--cp-text-muted); }
+    .prompt-card { border: 1px solid var(--cp-border); border-radius: 10px; margin-top: 12px; overflow: hidden; }
+    .prompt-header { display: flex; align-items: center; gap: 12px; padding: 14px 20px; }
+    .prompt-index { font-size: 11px; font-weight: 700; color: var(--cp-station); }
+    .prompt-header h4 { font-size: 13px; font-weight: 600; flex: 1; line-height: 1.4; }
+    .optional-tag { font-size: 10px; color: var(--cp-text-muted); border: 1px solid var(--cp-border); padding: 2px 7px; border-radius: 5px; white-space: nowrap; }
+    .copy-button {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 92px;
+      padding: 7px 12px; border: 1px solid var(--cp-border); background: var(--cp-surface);
+      border-radius: 6px; color: var(--cp-text); font-size: 12px; font-weight: 600;
+    }
+    .copy-button:hover { background: var(--cp-wash); border-color: var(--cp-station); color: var(--cp-station); }
+    .copy-button:disabled { cursor: wait; }
+    .copy-icon { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+    .prompt-text { white-space: pre-wrap; overflow-wrap: anywhere; margin: 0; padding: 18px 20px; background: var(--cp-bg-elevated); border-top: 1px solid var(--cp-border); font: 13px/1.85 Consolas, "Courier New", Courier, monospace; }
+    .prompt-help { font-size: 12px; color: var(--cp-text-muted); padding: 12px 20px; border-top: 1px solid var(--cp-border); }
+    .prompt-card.used { border-left: 3px solid var(--cp-station); }
+    .manual-copy { padding: 16px 20px; border-top: 1px solid var(--cp-border); background: var(--cp-wash); }
+    .manual-copy p { font-size: 12px; margin-bottom: 12px; }
+    .manual-copy textarea { width: 100%; min-height: 110px; padding: 12px; resize: vertical; border: 1px solid var(--cp-border-strong); border-radius: 6px; color: var(--cp-text); background: var(--cp-surface); font: 13px/1.6 Consolas, "Courier New", Courier, monospace; }
+    .manual-copy .copy-button { margin-top: 8px; }
+    .go-further { margin-top: 24px; padding: 4px 0 4px 20px; border-left: 2px dashed var(--cp-border-strong); }
+    .go-further h3 { color: var(--cp-text-muted); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+    .go-further p { color: var(--cp-text-muted); font-size: 13px; }
+    .save-report { margin-top: 24px; padding: 20px 24px; border: 1px solid var(--cp-word); background: var(--cp-word-soft); border-radius: 10px; }
+    .save-report strong { display: block; font-size: 14px; }
+    .save-report p { margin-top: 8px; font-size: 13px; color: var(--cp-text-muted); }
+    .save-report label { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 13px; margin-top: 16px; cursor: pointer; }
+    .save-report input { width: 18px; height: 18px; accent-color: var(--cp-word); margin: 0; }
+    .dependency-nudge { padding: 16px 20px; background: var(--cp-powerpoint-soft); border: 1px solid var(--cp-border); border-radius: 10px; margin-bottom: 24px; font-size: 13px; }
+    .dependency-nudge strong { display: block; margin-bottom: 4px; }
+    .station-footer { display: flex; justify-content: space-between; gap: 20px; align-items: center; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--cp-border); font-size: 12px; color: var(--cp-text-muted); }
+    .next-link { color: var(--cp-station); text-decoration: none; font-weight: 600; }
+    .next-link:hover { text-decoration: underline; }
+    .closing { margin-top: 40px; padding: 28px 32px; border: 1px dashed var(--cp-border-strong); border-radius: 16px; }
+    .closing h2 { font-size: 20px; margin-top: 8px; font-weight: 600; }
+    .closing code { display: block; margin-top: 16px; color: var(--cp-text-muted); font-size: 13px; }
+    .page-footer { display: flex; justify-content: space-between; gap: 24px; margin-top: 32px; font-size: 11px; color: var(--cp-text-soft); }
+    .toast { position: fixed; right: 28px; bottom: 64px; z-index: 20; max-width: 420px; padding: 12px 20px; border: 1px solid var(--cp-border); border-radius: 10px; background: var(--cp-text); color: var(--cp-surface); font-size: 13px; pointer-events: none; }
+    .materialize { animation: materialize 550ms ease-out both; }
+    @keyframes materialize { from { opacity: 0.4; transform: translateY(12px) scale(0.993); filter: blur(2px); } to { opacity: 1; transform: none; filter: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+    @media (max-width: 1100px) {
+      .layout { padding: 12px 24px; }
+      .topbar-inner { padding: 0 24px; }
+      .tablist { padding: 10px 24px; gap: 4px; }
+      .nav-link { gap: 8px; padding: 10px 8px; }
+      .nav-sub { font-size: 9px; }
+      .station-body { gap: 24px; }
+      .journey { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .file-kit { grid-template-columns: 1fr; }
+      .station-head, .station-body { padding: 24px; }
+      .station-head { grid-template-columns: minmax(0, 1fr); }
+      .hero { grid-template-columns: minmax(0, 1fr); }
+    }
+    @media (max-width: 720px) {
+      .layout { padding: 8px; }
+      .tablist { padding: 8px; gap: 4px; }
+      .nav-link { flex-direction: column; align-items: flex-start; gap: 4px; }
+      .nav-title { font-size: 10px; }
+      .nav-sub, .top-meta > span:first-child, .progress-note { display: none; }
+      .app-status { padding: 8px 16px; }
+      .station-body { grid-template-columns: minmax(0, 1fr); }
+      .hero { padding-top: 24px; }
+      .topbar-inner { padding: 0 20px; }
+      .top-meta { gap: 8px; }
+      .top-progress-label { min-width: auto; }
+      .brand strong { font-size: 12px; }
+      h1 { font-size: 48px; }
+      .brief { padding: 24px; }
+      .station h2 { font-size: 26px; }
+      .station-meta { gap: 12px; }
+      .prompt-header { padding: 12px; gap: 8px; flex-wrap: wrap; }
+      .prompt-header h4 { min-width: 100px; }
+      .run-heading, .station-footer, .page-footer { flex-wrap: wrap; }
+    }
+    /* Viewport height here is the host's iframe height, not the physical display height. */
+    @media (max-height: 650px) and (min-width: 1101px) {
+      .topbar { height: 32px; }
+      .brand { gap: 8px; }
+      .brand-mark { padding: 5px; }
+      .brand strong { font-size: 13px; }
+      .brand span small { display: none; }
+      .tablist { padding: 4px 16px; gap: 8px; }
+      .nav-link { padding: 4px 10px; gap: 8px; }
+      .nav-num { width: 24px; height: 24px; }
+      .nav-title { font-size: 12px; }
+      .nav-sub { margin-top: 2px; }
+      .layout { padding: 6px 16px; }
+      .app-status { padding: 3px 16px; }
+      .start-panel { padding: 0 16px 16px; }
+      .hero { padding: 12px 0; gap: 16px 24px; }
+      .hero-kicker { margin-bottom: 8px; }
+      h1 { font-size: 40px; letter-spacing: -1.5px; }
+      h1 .title-prefix { font-size: 20px; margin-bottom: 4px; letter-spacing: -0.5px; }
+      .tagline { margin-top: 8px; font-size: 16px; }
+      .hero-tags { margin-top: 10px; gap: 6px; }
+      .tag { padding: 3px 8px; }
+      .hero-actions { margin-top: 12px; gap: 8px 16px; }
+      .primary { padding: 7px 16px; }
+      .brief { padding: 16px 20px; }
+      .brief > p { font-size: 14px; line-height: 1.6; }
+      .brief > p + p { margin-top: 12px; }
+      .brief .eyebrow { margin-bottom: 8px; }
+      .brief details { margin-top: 12px; padding-top: 12px; }
+      .journey-card { padding: 12px; }
+      .journey-card .app { margin: 8px 0; }
+      .station-head { padding: 10px 20px; gap: 6px 20px; }
+      .station h2 { font-size: 24px; padding: 0; }
+      .station-heading { gap: 12px; }
+      .big-number { font-size: 32px; }
+      .story-date { margin-top: 4px; }
+      .station-body { padding: 16px 20px; gap: 20px; }
+      .narrative p { font-size: 14px; line-height: 1.6; }
+      .setup { padding: 16px; margin-top: 16px; }
+      .prompt-header { padding: 10px 14px; }
+      .prompt-text { padding: 12px 14px; font-size: 13px; line-height: 1.7; }
+      .prompt-help { padding: 10px 14px; }
+      .toast { bottom: 40px; padding: 8px 16px; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to activity</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="#welcome" class="brand" aria-label="Project Bacon introduction">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span><strong>The Copilot Trek</strong><small>PROJECT BACON</small></span>
+      </a>
+      <div class="top-meta">
+        <span>A SELF-GUIDED ACTIVITY</span>
+        <span class="top-progress-label" id="progress-label">0 / 4 complete</span>
+      </div>
+    </div>
+  </header>
+  <nav class="tabbar" aria-label="Activity">
+    <div class="tablist" id="station-nav" role="tablist" aria-label="Start and stations">
+      <button type="button" class="nav-link" id="nav-welcome" role="tab" aria-selected="true" aria-controls="welcome"><span class="nav-num" aria-hidden="true">00</span><span><span class="nav-title">Start here</span><span class="nav-sub">The story &amp; your files</span></span></button>
+    </div>
+  </nav>
+  <div class="layout">
+    <main id="main">
+      <div class="activity-panel start-panel" id="welcome" role="tabpanel" aria-labelledby="nav-welcome" tabindex="0">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-intro">
+        <div class="hero-kicker"><span class="line" aria-hidden="true"></span><span class="eyebrow">One crisis. Four stations. Your Copilot.</span></div>
+        <h1 id="hero-title"><span class="title-prefix">The Copilot Trek:</span> <span class="title-main">Project Bacon</span></h1>
+        <p class="tagline">A guided trek across Word, Excel, and PowerPoint — powered by Copilot.</p>
+        <div class="hero-tags"><span class="tag">20–25 minutes</span><span class="tag">4 stations</span><span class="tag" id="prompt-count">11 prompts · 2 optional</span><span class="tag">No facilitator needed</span></div>
+        <div class="hero-actions"><a href="#station-1-meeting" class="primary">Let's begin <span aria-hidden="true">→</span></a><span>Start at Station 1, or choose your own entry point.</span></div>
+        </div>
+        <div class="brief">
+          <p class="eyebrow">The situation</p>
+          <p>Somewhere in the Gamma Quadrant, a routine supply run just became a full-blown crisis: the fleet's sole certified bacon supplier has been assimilated by the Borg, with a major diplomatic gala only 26 days out. What follows is the real (if slightly ridiculous) paper trail of how the crisis got solved — a meeting transcript, a supply chain spreadsheet, and a report template. You'll create the slide deck yourself.</p>
+          <p><strong>Your job:</strong> work through it the way you would a real business crisis, using Copilot to do the heavy lifting at every step. You'll turn a live meeting into notes, a messy spreadsheet into insight, a blank template into a finished report, and that report into an executive-ready deck — in about 20 minutes, start to finish.</p>
+          <details open>
+            <summary>This isn't a scripted demo</summary>
+            <p>This isn't a scripted demo. Every prompt here is one you can actually run, on the actual files, and get a real result. Copy it, paste it, watch what happens. If you want to go off-script and try your own prompt instead, do it — that's the point.</p>
+            <p><strong>What you'll need:</strong> just this page and the three source files in the files panel. No login beyond your own Copilot license. Work through all four stations in one sitting, or bookmark this page and come back whenever — nothing here expires.</p>
+          </details>
+        </div>
+        <div class="journey-title"><h2>Four stations, one story</h2><span>AUG 14 → SEP 9, 2026</span></div>
+        <div class="journey" id="journey"></div>
+      </section>
+      <section class="getting-ready" aria-labelledby="ready-title">
+        <h2 id="ready-title">Your starting kit</h2>
+        <p>Grab these three originals from the Seismic files panel alongside this activity. Work on your own copies; leave the shared originals unchanged. This page doesn't open, upload, or download your files.</p>
+        <div class="file-kit">
+          <div class="kit-file word"><span class="app"><span class="app-icon" aria-hidden="true">W</span>Word</span><strong>The meeting transcript</strong><span class="filename">SISCC_August2026_Monthly_Meeting.docx</span></div>
+          <div class="kit-file excel"><span class="app"><span class="app-icon" aria-hidden="true">X</span>Excel</span><strong>The provisions ledger</strong><span class="filename">Project_Bacon_Fleet_Provisions_Ledger.xlsx</span></div>
+          <div class="kit-file word"><span class="app"><span class="app-icon" aria-hidden="true">W</span>Word</span><strong>The blank report template</strong><span class="filename">Project_Bacon_Crisis_Report_Template.docx</span></div>
+        </div>
+        <p><strong>Keep this page beside your Microsoft 365 apps.</strong> Open the named file, open Copilot, then copy and run the station's prompts in order in the same conversation. Wait for each response before continuing. You need access to Copilot in Word, Excel, and PowerPoint; the activity page itself needs no sign-in.</p>
+        <details><summary>Before you run a prompt</summary><p>Save editable working copies to your work OneDrive or SharePoint if your app requires it. Use Copilot's file or source picker to attach the named originals; controls vary by app and rollout. If a source cannot be attached, or Copilot cannot edit your file, resolve that access or capability issue before continuing. Do not assume a filename typed into a prompt attaches the file. Review generated facts and numbers against the sources. This fictional exercise contains no real customer data.</p></details>
+      </section>
+      <noscript><div class="brief"><strong>JavaScript is required for the stations and copy buttons.</strong><p>Open this HTML file in a browser with JavaScript enabled. If the embedded viewer blocks scripts, ask the content owner for a script-enabled way to open the activity.</p></div></noscript>
+      <footer class="page-footer"><span>The Copilot Trek: Project Bacon</span><span>Fictional scenario. Real skills. No data leaves this page.</span></footer>
+      </div>
+      <section class="closing" id="closing" aria-labelledby="closing-title" hidden>
+        <p class="eyebrow">Closing section · copy pending</p>
+        <h2 id="closing-title">Wrap-up</h2>
+        <code>[CLOSING BLURB PLACEHOLDER]</code>
+      </section>
+    </main>
+  </div>
+  <footer class="app-status">
+    <p id="storage-status" role="status">Progress stays in this browser.</p>
+    <span class="progress-note">All stations unlocked · Checkmarks track copied prompts, not Copilot results.</span>
+    <button type="button" class="text-button" id="reset-open" aria-expanded="false" aria-controls="reset-panel">Reset my progress</button>
+    <div class="reset-panel" id="reset-panel" hidden>
+      <p>Clear this activity's copied prompts and report-saved checkmark? Your files are not affected.</p>
+      <div class="reset-actions">
+        <button type="button" class="text-button" id="reset-confirm">Reset</button>
+        <button type="button" class="text-button" id="reset-cancel">Cancel</button>
+      </div>
+    </div>
+  </footer>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <script>
+    (() => {
+      "use strict";
+      const transcript = "SISCC_August2026_Monthly_Meeting.docx";
+      const ledger = "Project_Bacon_Fleet_Provisions_Ledger.xlsx";
+      const template = "Project_Bacon_Crisis_Report_Template.docx";
+      const stations = [
+        {
+          id: "station-1-meeting", app: "word", appName: "Word", appLetter: "W",
+          title: "The Emergency Meeting", skill: "Listen & summarize",
+          focus: "Goal → Context → Expectations", storyDate: "Aug 14, 2026",
+          storyLabel: "Day 0 — The Assimilation Event", shortDate: "AUG 14 · DAY 0",
+          summary: "Turn a live transcript into a real recap.", minutes: "4–5",
+          dependsOn: [], sourceFiles: [{name: transcript, role: "Open in Word"}],
+          narrative: [
+            "It's Day 0. Five officers just got pulled into an unscheduled call about a vendor none of them expected to lose overnight. Somebody has to turn that conversation into something usable — and that's exactly the kind of task Copilot is built for, if you ask it the right way.",
+            'This station is a quick tour of how to ask. You\'ll run the same request three times, adding one new piece of information each time, and watch the output visibly get better. By the end you\'ll have a real recap — and a feel for why "summarize this" and "summarize this for my boss" produce two completely different documents.'
+          ],
+          setup: "Open your copy of the transcript in Word, then open Copilot. Run all three prompts in the same conversation so each builds on the previous answer.",
+          inputNote: "Start here with just the transcript. Your recap is a learning artifact; later stations do not require it.",
+          prompts: [
+            {title: "Baseline — let Copilot decide", required: true, text: "Summarize this meeting.", help: "Read the first answer before adding more direction."},
+            {title: "Add Goal + Context", required: true, text: "I need to brief Admiral Nechayev's office on this crisis. Redo the summary as something I could actually send: lead with decisions and action items, not play-by-play.", help: "Notice how naming your audience changes what comes first."},
+            {title: "Add Expectations", required: true, text: "Format it with these headings: Who Spoke, What Was Decided, Open Questions, Action Items (table: Action Item, Owner, Due Date). Keep it factual, no commentary.", help: "Compare the structure with your first summary. Check owners and dates against the transcript."}
+          ],
+          goFurther: "Want to go further? In a real workflow, you'd keep this recap and paste it straight into your report draft. Try it — save what Copilot just gave you, and ask Word's Copilot to work it into a paragraph."
+        },
+        {
+          id: "station-2-ledger", app: "excel", appName: "Excel", appLetter: "X",
+          title: "Making Sense of the Chaos", skill: "Analyze",
+          focus: "Clean → Analyze → Cross-reference", storyDate: "Aug 14–23, 2026",
+          storyLabel: "The Investigation", shortDate: "AUG 14–23",
+          summary: "Clean and analyze a 3,500-row mess.", minutes: "6–8",
+          dependsOn: [], sourceFiles: [{name: ledger, role: "Open in Excel"}],
+          narrative: [
+            "This is the file nobody wants to open. 3,500 rows, a dozen-plus columns, dates in five different formats, and dollar amounts that don't even agree on a currency symbol. This is exactly the kind of spreadsheet that normally gets ignored until someone's forced to deal with it.",
+            "Here, Copilot is that someone. You'll have it clean the mess in seconds, then go further — surface what actually happened to the supply chain in the days after the crisis broke, all without you writing a single formula."
+          ],
+          setup: "Open an editable copy of the ledger in Excel. Open Copilot and keep the same workbook and conversation for all four prompts. Review any proposed changes before applying them.",
+          inputNote: "No Station 1 output needed. Your cleaned copy is for practice; Station 3 starts fresh from the original files.",
+          prompts: [
+            {title: "Orient", required: true, text: "Give me a quick orientation to this workbook — what's on each tab, how many records, and what time period does it cover?", help: "Get your bearings before changing the data."},
+            {title: "Clean it", required: true, text: "Clean up the Order Date and Total Cost (USD) columns — standardize every entry to one consistent format, and tell me how many rows needed correction.", help: "Check that the changes reached the cells, not just the chat. Preserve the original values in your source file."},
+            {title: "Analyze it", required: true, text: "Break down total spend by Vessel and by Supplier. Something changed in our supplier mix around mid-August 2026 — walk me through what happened and when, using only this data.", help: "Look for evidence in the ledger, not an invented explanation for the change."},
+            {title: "Cross-reference", required: true, text: "Cross-reference the Ledger against the FY2026 Vessel Targets tab — which vessels are over or under their Q3 target?", help: "Make sure the comparison uses the Q3 period and the matching target for each vessel."}
+          ]
+        },
+        {
+          id: "station-3-crisis-report", app: "word", appName: "Word", appLetter: "W",
+          title: "Writing the Crisis Report", skill: "Write",
+          focus: "Multi-source drafting", storyDate: "Aug 22–24, 2026",
+          storyLabel: "The Write-Up", shortDate: "AUG 22–24",
+          summary: "Turn findings into a formal document.", minutes: "6–7",
+          dependsOn: [], producesPersonalArtifact: true,
+          sourceFiles: [{name: template, role: "Open your own copy in Word"}, {name: transcript, role: "Attach the original source"}, {name: ledger, role: "Attach the original source"}],
+          narrative: [
+            "You've got the meeting notes and the cleaned data. Now someone has to write the actual report — the kind that used to take an afternoon of copy-pasting between five browser tabs.",
+            "This template has the sections a real crisis report needs, but every one of them is blank. Attach both source files, give Copilot one instruction, and watch it write the whole thing in a single pass. Then push it further on the one section that benefits most from precision."
+          ],
+          setup: "Open your own copy of the blank report template in Word. In Copilot, attach the original transcript and original ledger from the files panel. You do not need your recap or cleaned workbook from Stations 1–2.",
+          inputNote: 'Fresh-source note: the authored prompt below says "cleaned provisions ledger." Here, the source is the original ledger: ask Copilot to normalize its dates and costs in this context before using them if needed. Do not assume your Station 2 changes carried over.',
+          prompts: [
+            {title: "One-shot fill", required: true, text: "Using the attached meeting transcript and the cleaned provisions ledger, fill in every section of this template. Keep the tone factual and executive-level.", help: "Review every section. If Copilot answers only in chat, insert the reviewed draft into your template before saving."},
+            {title: "Tighten a weak spot", required: false, optionalLabel: "If needed", text: "The Alternative / Vendor Evaluation table is light on detail. Pull the specific numbers — Paris Scale scores, delivery timelines, pricing — from the ledger and fill it in properly.", help: "Only run this if the evaluation table needs more detail. If a number is absent from the sources, have Copilot flag the gap rather than invent it."}
+          ]
+        },
+        {
+          id: "station-4-briefing", app: "powerpoint", appName: "PowerPoint", appLetter: "P",
+          title: "The Executive Briefing", skill: "Synthesize & present",
+          focus: "Report → Executive deck", storyDate: "Sep 9, 2026",
+          storyLabel: "Day 26 — The Gala", shortDate: "SEP 9 · DAY 26",
+          summary: "Turn that report into a deck, in one prompt.", minutes: "4–5",
+          dependsOn: ["station-3-crisis-report"],
+          sourceFiles: [{name: "Your own filled-in crisis report", role: "Required · saved at Station 3"}, {name: ledger, role: "Optional · attach before the polish prompt"}],
+          narrative: [
+            "Last stop. The report is written, the crisis is resolved, and now it needs to go in front of leadership as a short, sharp deck — not a document nobody will read before the meeting.",
+            "This is the payoff for everything you just did. One file, one prompt, one finished deck. No slide-by-slide building, no formatting fights — just watch Copilot turn everything you've already produced into something presentation-ready."
+          ],
+          setup: "In PowerPoint, start a new presentation and open Copilot's presentation-creation experience. Attach or select your saved, filled-in Station 3 report as the source, then run the capstone prompt. No starter deck is provided or needed.",
+          inputNote: "For the optional data slide, attach the original ledger as an additional source first. If your PowerPoint experience does not support adding that workbook, skip the optional prompt; it never blocks completion.",
+          prompts: [
+            {title: "The capstone — one prompt, one file", required: true, text: "Attach this crisis report and build me a 6-slide executive briefing deck summarizing it for Admiral Nechayev.", help: "The report must actually be selected as a source. Review the generated six-slide story and save your deck."},
+            {title: "Optional polish", required: false, optionalLabel: "Optional", text: "Add a data-driven slide near the end comparing the Paris Scale scores across the suppliers we evaluated.", help: "Use the optional ledger source. This adds a slide beyond the six-slide core deck; compare its values with the workbook."}
+          ]
+        }
+      ];
+
+      const storageKey = "copilot-trek-project-bacon:v1";
+      const promptIds = new Set(stations.flatMap(station => station.prompts.map((_, i) => `${station.id}-prompt-${i + 1}`)));
+      const panelIds = ["welcome", ...stations.map(station => station.id)];
+      const initialState = () => ({version: 1, used: [], reportSaved: false, activePanel: "welcome"});
+      let state = initialState();
+      let storageAvailable = true;
+      let storageMessage = "Progress stays in this browser. No account or cloud sync.";
+      let toastTimer;
+      const byId = id => document.getElementById(id);
+      function element(tag, className, text) {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text !== undefined) node.textContent = text;
+        return node;
+      }
+      function notify(message) {
+        clearTimeout(toastTimer);
+        const toast = byId("toast");
+        toast.textContent = message;
+        toast.hidden = false;
+        toastTimer = setTimeout(() => { toast.hidden = true; }, 4200);
+      }
+      function readState() {
+        let raw;
+        try {
+          raw = window.localStorage.getItem(storageKey);
+        } catch (error) {
+          storageAvailable = false;
+          storageMessage = "Browser storage is blocked. Progress lasts only while this page stays open.";
+          console.warn("Project Bacon could not read browser progress.", error);
+          return;
+        }
+        if (!raw) return;
+        let saved;
+        try {
+          saved = JSON.parse(raw);
+        } catch (error) {
+          storageMessage = "Saved progress was unreadable. Starting fresh; your files are unaffected.";
+          console.warn("Project Bacon found invalid saved progress.", error);
+          return;
+        }
+        if (!saved || saved.version !== 1 || !Array.isArray(saved.used) || saved.used.some(id => typeof id !== "string") || typeof saved.reportSaved !== "boolean") {
+          storageMessage = "Saved progress has an unsupported format. Starting fresh; your files are unaffected.";
+          console.warn("Project Bacon rejected an unsupported progress format.");
+          return;
+        }
+        state = {
+          version: 1, used: [...new Set(saved.used.filter(id => promptIds.has(id)))],
+          reportSaved: saved.reportSaved, activePanel: panelIds.includes(saved.activePanel) ? saved.activePanel : "welcome"
+        };
+      }
+      function persist() {
+        if (!storageAvailable) return;
+        try {
+          window.localStorage.setItem(storageKey, JSON.stringify(state));
+          storageMessage = "Progress saved in this browser. No account or cloud sync.";
+        } catch (error) {
+          storageAvailable = false;
+          storageMessage = "Browser storage is unavailable. Progress lasts only while this page stays open.";
+          console.warn("Project Bacon could not save browser progress.", error);
+        }
+      }
+      function requiredProgress(station) {
+        const required = station.prompts.map((prompt, index) => ({...prompt, id: `${station.id}-prompt-${index + 1}`})).filter(prompt => prompt.required);
+        const used = required.filter(prompt => state.used.includes(prompt.id)).length;
+        return {used, total: required.length, complete: used === required.length};
+      }
+      function renderProgress() {
+        let completeCount = 0;
+        stations.forEach((station, index) => {
+          const progress = requiredProgress(station);
+          if (progress.complete) completeCount += 1;
+          const nav = byId(`nav-${station.id}`);
+          nav.classList.toggle("done", progress.complete);
+          nav.querySelector(".nav-num").textContent = progress.complete ? "✓" : String(index + 1).padStart(2, "0");
+          nav.querySelector(".nav-sub").textContent = `${station.appName} · ${progress.used}/${progress.total} required copied`;
+          nav.setAttribute("aria-label", `Station ${index + 1}: ${station.title}. ${progress.complete ? "All required prompts copied" : `${progress.used} of ${progress.total} required prompts copied`}`);
+          byId(`status-${station.id}`).textContent = progress.complete ? "✓ All required prompts copied" : `${progress.used} of ${progress.total} required prompts copied`;
+          station.prompts.forEach((_, promptIndex) => {
+            const id = `${station.id}-prompt-${promptIndex + 1}`;
+            const used = state.used.includes(id);
+            byId(id).classList.toggle("used", used);
+            byId(`copy-${id}`).querySelector(".copy-label").textContent = used ? "Copied" : "Copy";
+          });
+          if (station.dependsOn.length) {
+            const sourcesReady = station.dependsOn.every(id => requiredProgress(stations.find(source => source.id === id)).complete);
+            byId(`nudge-${station.id}`).hidden = sourcesReady && state.reportSaved;
+          }
+        });
+        byId("progress-label").textContent = `${completeCount} / ${stations.length} complete`;
+        byId("report-saved").checked = state.reportSaved;
+        byId("storage-status").textContent = storageMessage;
+      }
+      function markUsed(id) {
+        if (!state.used.includes(id)) state.used.push(id);
+        persist();
+        renderProgress();
+      }
+      function appBadge(station) {
+        const badge = element("span", "app");
+        const icon = element("span", "app-icon", station.appLetter);
+        icon.setAttribute("aria-hidden", "true");
+        badge.append(icon, document.createTextNode(station.appName));
+        return badge;
+      }
+      function showManualCopy(card, prompt, id) {
+        let panel = byId(`manual-${id}`);
+        if (!panel) {
+          panel = element("div", "manual-copy");
+          panel.id = `manual-${id}`;
+          panel.append(element("p", "", "Automatic copy is unavailable in this viewer. Select the text below and press Ctrl+C (Windows) or Command+C (Mac), then confirm you copied it."));
+          const text = element("textarea");
+          text.value = prompt.text;
+          text.readOnly = true;
+          text.setAttribute("aria-label", `Manual copy: ${prompt.title}`);
+          text.spellcheck = false;
+          const confirm = element("button", "copy-button", "I've copied it");
+          confirm.type = "button";
+          confirm.addEventListener("click", () => {
+            markUsed(id);
+            panel.hidden = true;
+            byId(`copy-${id}`).focus({preventScroll: true});
+            notify("Marked as copied. Paste it into Copilot.");
+          });
+          panel.append(text, confirm);
+          card.append(panel);
+        }
+        panel.hidden = false;
+        panel.querySelector("textarea").focus();
+        panel.querySelector("textarea").select();
+        notify("Use the manual-copy box below this prompt.");
+      }
+      function promptCard(station, prompt, index) {
+        const id = `${station.id}-prompt-${index + 1}`;
+        const card = element("article", "prompt-card");
+        card.id = id;
+        card.setAttribute("aria-labelledby", `${id}-title`);
+        const header = element("div", "prompt-header");
+        const title = element("h4", "", prompt.title);
+        title.id = `${id}-title`;
+        header.append(element("span", "prompt-index", String(index + 1).padStart(2, "0")), title);
+        if (!prompt.required) header.append(element("span", "optional-tag", prompt.optionalLabel || "Optional"));
+        const copy = element("button", "copy-button");
+        copy.type = "button";
+        copy.id = `copy-${id}`;
+        copy.setAttribute("aria-label", `Copy prompt ${index + 1}: ${prompt.title}`);
+        const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        icon.setAttribute("class", "copy-icon");
+        icon.setAttribute("viewBox", "0 0 16 16");
+        icon.setAttribute("aria-hidden", "true");
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("d", "M5 5h8v9H5z M3 11H2V2h8v1");
+        icon.append(path);
+        copy.append(icon, element("span", "copy-label", "Copy"));
+        copy.addEventListener("click", async () => {
+          copy.disabled = true;
+          try {
+            if (!navigator.clipboard || typeof navigator.clipboard.writeText !== "function") {
+              showManualCopy(card, prompt, id);
+              return;
+            }
+            try {
+              await navigator.clipboard.writeText(prompt.text);
+            } catch (error) {
+              console.warn("Project Bacon clipboard access failed; manual copy is available.", error);
+              showManualCopy(card, prompt, id);
+              return;
+            }
+            const manual = byId(`manual-${id}`);
+            if (manual) manual.hidden = true;
+            markUsed(id);
+            notify("Prompt copied. Paste it into Copilot.");
+          } finally {
+            copy.disabled = false;
+          }
+        });
+        header.append(copy);
+        const pre = element("pre", "prompt-text");
+        pre.append(element("code", "", prompt.text));
+        card.append(header, pre, element("p", "prompt-help", prompt.help));
+        return card;
+      }
+      function renderStations() {
+        const count = stations.reduce((total, station) => total + station.prompts.length, 0);
+        const optional = stations.reduce((total, station) => total + station.prompts.filter(prompt => !prompt.required).length, 0);
+        byId("prompt-count").textContent = `${count} prompts · ${optional} optional`;
+        stations.forEach((station, index) => {
+          const number = String(index + 1).padStart(2, "0");
+          const nav = element("button", `nav-link ${station.app}`);
+          nav.type = "button";
+          nav.id = `nav-${station.id}`;
+          nav.setAttribute("role", "tab");
+          nav.setAttribute("aria-controls", station.id);
+          nav.setAttribute("aria-selected", "false");
+          nav.tabIndex = -1;
+          const navNumber = element("span", "nav-num", number);
+          navNumber.setAttribute("aria-hidden", "true");
+          const navText = element("span");
+          navText.append(element("span", "nav-title", station.title), element("span", "nav-sub", station.appName));
+          nav.append(navNumber, navText);
+          byId("station-nav").append(nav);
+          const journey = element("a", `journey-card ${station.app}`);
+          journey.href = `#${station.id}`;
+          journey.append(element("small", "", `STATION ${number} · ${station.shortDate}`), appBadge(station), element("strong", "", station.title), element("p", "", station.summary));
+          byId("journey").append(journey);
+          const section = element("section", `activity-panel station ${station.app}`);
+          section.id = station.id;
+          section.setAttribute("role", "tabpanel");
+          section.setAttribute("aria-labelledby", nav.id);
+          section.tabIndex = 0;
+          section.hidden = true;
+          const head = element("div", "station-head");
+          const meta = element("div", "station-meta");
+          meta.append(element("span", "eyebrow", `Station ${number} / ${station.skill}`), element("span", "station-time", `${station.minutes} MIN`));
+          const heading = element("div", "station-heading");
+          const bigNumber = element("span", "big-number", number);
+          bigNumber.setAttribute("aria-hidden", "true");
+          const headingText = element("div");
+          const h2 = element("h2", "", station.title);
+          h2.id = `${station.id}-title`;
+          headingText.append(h2, element("p", "story-date", `${station.storyDate} · ${station.storyLabel}`));
+          heading.append(bigNumber, headingText);
+          const skill = element("div", "skill-line");
+          skill.append(appBadge(station), element("span", "", station.focus));
+          head.append(meta, heading, skill);
+          const body = element("div", "station-body");
+          if (station.dependsOn.length) {
+            const nudge = element("div", "dependency-nudge");
+            nudge.id = `nudge-${station.id}`;
+            nudge.append(element("strong", "", "Bring your own report from Station 3."));
+            const p = element("p", "", "Your saved report isn't confirmed yet. ");
+            const link = element("a", "", "Go to Station 3 to create and save it");
+            link.href = `#${station.dependsOn[0]}`;
+            p.append(link, document.createTextNode(" — or continue here if you already have it. Nothing is locked."));
+            nudge.append(p);
+            body.append(nudge);
+          }
+          const narrative = element("div", "narrative");
+          station.narrative.forEach(text => narrative.append(element("p", "", text)));
+          const setup = element("div", "setup");
+          setup.append(element("h3", "", "Before you prompt"), element("p", "", station.setup));
+          const fileList = element("ul");
+          station.sourceFiles.forEach(file => {
+            const li = element("li");
+            li.append(element("span", "filename", file.name), document.createTextNode(` — ${file.role}`));
+            fileList.append(li);
+          });
+          setup.append(fileList, element("p", "", station.inputNote));
+          const run = element("div", "run-heading");
+          run.append(element("h3", "", "Copy. Run. See what changes."), element("p", "", "Run in order · Keep the same conversation"));
+          const context = element("div", "station-context");
+          context.append(narrative, setup);
+          if (station.dependsOn.length) context.prepend(body.querySelector(".dependency-nudge"));
+          const work = element("div", "station-work");
+          work.append(run);
+          body.append(context, work);
+          station.prompts.forEach((prompt, i) => work.append(promptCard(station, prompt, i)));
+          if (station.goFurther) {
+            const further = element("aside", "go-further");
+            further.append(element("h3", "", "Go further · optional stretch"), element("p", "", station.goFurther));
+            work.append(further);
+          }
+          if (station.producesPersonalArtifact) {
+            const save = element("div", "save-report");
+            save.append(element("strong", "", "Save this file — you'll need it for Station 4."), element("p", "", "Save your filled-in Word report somewhere you can select it from PowerPoint. Confirm below only after the report is saved. This page cannot see or save your document."));
+            const label = element("label");
+            const input = element("input");
+            input.type = "checkbox";
+            input.id = "report-saved";
+            input.addEventListener("change", () => {
+              state.reportSaved = input.checked;
+              persist();
+              renderProgress();
+              notify(state.reportSaved ? "Report marked as saved. Bring it to Station 4." : "Report-saved acknowledgment removed.");
+            });
+            label.append(input, document.createTextNode("I've saved my filled-in report"));
+            save.append(label);
+            work.append(save);
+          }
+          if (index === stations.length - 1) {
+            const closing = byId("closing");
+            closing.hidden = false;
+            work.append(closing);
+          }
+          const footer = element("div", "station-footer");
+          const status = element("span");
+          status.id = `status-${station.id}`;
+          const next = stations[index + 1];
+          const nextLink = element("a", "next-link", next ? `Station ${index + 2}: ${next.skill} →` : "Back to start →");
+          nextLink.href = next ? `#${next.id}` : "#welcome";
+          footer.append(status, nextLink);
+          body.append(footer);
+          section.append(head, body);
+          byId("main").append(section);
+        });
+      }
+      function activatePanel(id, {focusPanel = false, save = true} = {}) {
+        if (!panelIds.includes(id)) {
+          console.warn("Project Bacon could not open an unknown panel.", id);
+          notify("That station isn't available. Choose a tab above.");
+          return;
+        }
+        const panel = byId(id);
+        const changed = panel.hidden;
+        panelIds.forEach(panelId => {
+          const selected = panelId === id;
+          byId(panelId).hidden = !selected;
+          const tab = byId(`nav-${panelId}`);
+          tab.setAttribute("aria-selected", String(selected));
+          tab.tabIndex = selected ? 0 : -1;
+        });
+        if (changed) {
+          panel.scrollTop = 0;
+          panel.classList.remove("materialize");
+          // Restart the reveal on selection, independent of host/window scroll events.
+          void panel.offsetWidth;
+          panel.classList.add("materialize");
+        }
+        state.activePanel = id;
+        if (save) {
+          persist();
+          byId("storage-status").textContent = storageMessage;
+        }
+        if (focusPanel) panel.focus({preventScroll: true});
+      }
+      function setUpNavigation() {
+        const tabs = [...document.querySelectorAll('#station-nav [role="tab"]')];
+        tabs.forEach((tab, index) => {
+          tab.addEventListener("click", () => activatePanel(panelIds[index]));
+          tab.addEventListener("keydown", event => {
+            let next;
+            if (event.key === "ArrowRight") next = (index + 1) % tabs.length;
+            else if (event.key === "ArrowLeft") next = (index + tabs.length - 1) % tabs.length;
+            else if (event.key === "Home") next = 0;
+            else if (event.key === "End") next = tabs.length - 1;
+            else return;
+            event.preventDefault();
+            activatePanel(panelIds[next]);
+            tabs[next].focus({preventScroll: true});
+          });
+        });
+        document.addEventListener("click", event => {
+          const link = event.target instanceof Element ? event.target.closest('a[href^="#"]') : null;
+          if (!link) return;
+          const id = link.getAttribute("href").slice(1);
+          const target = id === "main" ? state.activePanel : id;
+          if (!panelIds.includes(target)) return;
+          event.preventDefault();
+          activatePanel(target, {focusPanel: true});
+        });
+        // Existing station bookmarks remain usable; switching tabs never scrolls the host.
+        const hashPanel = () => {
+          const id = window.location.hash.slice(1);
+          return id === "closing" ? stations[stations.length - 1].id : panelIds.includes(id) ? id : null;
+        };
+        window.addEventListener("hashchange", () => {
+          const id = hashPanel();
+          if (id) activatePanel(id, {focusPanel: true});
+        });
+        activatePanel(hashPanel() || state.activePanel, {save: false});
+      }
+      function toggleReset(open) {
+        byId("reset-panel").hidden = !open;
+        byId("reset-open").setAttribute("aria-expanded", String(open));
+        if (open) byId("reset-cancel").focus({preventScroll: true});
+        else byId("reset-open").focus({preventScroll: true});
+      }
+      byId("reset-open").addEventListener("click", () => toggleReset(byId("reset-panel").hidden));
+      byId("reset-cancel").addEventListener("click", () => toggleReset(false));
+      byId("reset-confirm").addEventListener("click", () => {
+        state = {...initialState(), activePanel: state.activePanel};
+        persist();
+        renderProgress();
+        document.querySelectorAll(".manual-copy").forEach(panel => { panel.hidden = true; });
+        toggleReset(false);
+        notify("Activity progress reset. Your documents are unchanged.");
+      });
+      readState();
+      renderStations();
+      renderProgress();
+      setUpNavigation();
+    })();
+  </script>
+</body>
+</html>
