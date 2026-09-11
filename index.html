@@ -18,18 +18,18 @@
   <style>
     :root {
       color-scheme: light;
-      --cp-bg: #f7f4ef;
-      --cp-bg-elevated: #fcfbf8;
+      --cp-bg: #f7f8f0;
+      --cp-bg-elevated: #fafbf6;
       --cp-surface: #ffffff;
-      --cp-surface-soft: #f5f5f5;
-      --cp-border: #dedede;
+      --cp-surface-soft: #f0f3e9;
+      --cp-border: #d9ded3;
       --cp-border-strong: #919191;
-      --cp-text: #242424;
-      --cp-text-muted: #5c5c5c;
-      --cp-text-soft: #6f6f6f;
-      --cp-accent: #b11f4b;
-      --cp-accent-hover: #9a1a41;
-      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-text: #20231f;
+      --cp-text-muted: #535b52;
+      --cp-text-soft: #626b60;
+      --cp-accent: #243d39;
+      --cp-accent-hover: #152c28;
+      --cp-accent-soft: #e5ede4;
       --cp-accent-fg: #ffffff;
       --cp-success: #16a34a;
       --cp-danger: #dc2626;
@@ -40,7 +40,24 @@
       --cp-panel: rgba(255, 255, 255, 0.86);
       --cp-panel-strong: rgba(255, 255, 255, 0.96);
       --cp-sheen: rgba(255, 255, 255, 0.55);
-      --cp-highlight: rgba(177, 31, 75, 0.12);
+      --cp-highlight: #e3f3f6;
+      --cp-card: #f6f9f0;
+      --cp-sky: #7dd9ff;
+      --cp-sky-soft: #aae8ff;
+      --cp-glass-cyan: rgba(0, 199, 248, 0.68);
+      --cp-glass-blue: rgba(0, 63, 255, 0.94);
+      --cp-glass-violet: rgba(137, 36, 226, 0.84);
+      --cp-glass-pink: rgba(231, 65, 234, 0.68);
+      --cp-glass-orange: rgba(255, 98, 35, 0.86);
+      --cp-glass-lime: rgba(184, 237, 96, 0.76);
+      --cp-glass-green: rgba(14, 165, 91, 0.88);
+      --cp-glass-ice: rgba(191, 244, 255, 0.62);
+      --cp-glass-lilac: rgba(215, 177, 255, 0.68);
+      --cp-glass-peach: rgba(255, 215, 177, 0.72);
+      --cp-glass-edge: rgba(255, 255, 255, 0.78);
+      --cp-glass-reflection: rgba(255, 255, 255, 0.64);
+      --cp-glass-shadow: rgba(34, 62, 126, 0.12);
+      --cp-glass-line: rgba(255, 255, 255, 0.2);
     }
     html[data-theme="dark"] {
       color-scheme: dark;
@@ -69,16 +86,20 @@
       --cp-highlight: rgba(253, 142, 161, 0.12);
     }
     :root {
-      /* Office tints are intentional wayfinding colors from the activity's build spec. */
+      /* Glass artwork is decorative only; content surfaces remain opaque. */
       --cp-word: #2B579A;
       --cp-word-soft: #eef3fa;
+      --cp-word-glow: #89d5fc;
       --cp-excel: #217346;
       --cp-excel-soft: #edf6ef;
+      --cp-excel-glow: #94dfa8;
       --cp-powerpoint: #D24726;
       --cp-powerpoint-soft: #fcf0eb;
+      --cp-powerpoint-glow: #ffb083;
       --cp-clear: transparent;
       --cp-station: var(--cp-word);
       --cp-wash: var(--cp-word-soft);
+      --cp-glow: var(--cp-word-glow);
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; scroll-padding-top: 88px; }
@@ -86,7 +107,7 @@
       margin: 0;
       background: var(--cp-bg);
       color: var(--cp-text);
-      font: 16px/1.65 "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+      font: 16px/1.65 "Segoe Sans Display", "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
     }
     button, input, textarea { font: inherit; }
     button, a, input { -webkit-tap-highlight-color: var(--cp-clear); }
@@ -111,11 +132,6 @@
       display: flex; align-items: center; justify-content: space-between; gap: 24px;
     }
     .brand { text-decoration: none; color: var(--cp-text); display: flex; align-items: center; gap: 12px; }
-    .brand-mark {
-      display: grid; grid-template-columns: repeat(2, 7px); gap: 3px;
-      padding: 11px; border: 1px solid var(--cp-border); border-radius: 10px;
-    }
-    .brand-mark i { width: 7px; height: 7px; background: var(--cp-accent); border-radius: 2px; }
     .brand strong { font-size: 15px; font-weight: 650; }
     .brand span small { display: block; color: var(--cp-text-muted); font-size: 11px; letter-spacing: 1.5px; line-height: 1.3; }
     .top-meta { display: flex; gap: 24px; align-items: center; color: var(--cp-text-muted); font-size: 12px; }
@@ -133,7 +149,7 @@
     .nav-link[aria-current="location"] { background: var(--cp-wash); border-color: var(--cp-station); color: var(--cp-text); }
     .nav-num {
       display: grid; place-items: center; flex-shrink: 0; width: 28px; height: 28px;
-      border: 1px solid var(--cp-border); border-radius: 50%; font-size: 11px; font-weight: 650;
+      border: 1px solid var(--cp-border); border-radius: 50%; font-size: 12px; font-weight: 650; font-style: italic;
     }
     .nav-link[aria-current="location"] .nav-num { background: var(--cp-surface); border-color: var(--cp-station); color: var(--cp-station); }
     .nav-link.done .nav-num { color: var(--cp-accent); background: var(--cp-accent-soft); border-color: var(--cp-accent); }
@@ -146,65 +162,111 @@
     .reset-panel { margin-top: 12px; padding: 12px; border: 1px solid var(--cp-border-strong); border-radius: 10px; background: var(--cp-surface); }
     .reset-actions { display: flex; gap: 16px; margin-top: 8px; }
     main { min-width: 0; padding-bottom: 32px; }
-    .hero { padding: 24px 0; display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 24px 40px; align-items: start; }
-    .hero-intro { min-width: 0; }
+    .hero {
+      padding: 0 0 28px; display: grid;
+      grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: start;
+    }
+    .hero-intro { position: relative; isolation: isolate; min-width: 0; padding: 72px 24px; min-height: 560px; text-align: center; }
+    .hero-intro > :not(.ribbon-art) { position: relative; z-index: 1; max-width: 68%; margin-left: auto; margin-right: auto; }
+    .ribbon-art { position: absolute; inset: 0; overflow: hidden; pointer-events: none; border-radius: inherit; z-index: 0; }
+    .glass-pane {
+      --cp-pane-light: var(--cp-glass-ice);
+      --cp-pane-dark: var(--cp-glass-cyan);
+      position: absolute; display: block; transform: skewX(-15deg);
+      border: 1px solid var(--cp-glass-edge); border-radius: 56px;
+      background:
+        radial-gradient(ellipse at 28% 18%, var(--cp-glass-reflection), var(--cp-clear) 58%),
+        linear-gradient(145deg, var(--cp-pane-light), var(--cp-pane-dark) 78%);
+      box-shadow: inset 2px 2px 2px var(--cp-glass-edge), inset -1px -1px 2px var(--cp-glass-reflection), 0 12px 24px -16px var(--cp-glass-shadow);
+    }
+    .glass-pane::after {
+      content: ""; position: absolute; inset: 0; border-radius: inherit;
+      background:
+        linear-gradient(125deg, var(--cp-clear) 30%, var(--cp-glass-reflection) 48%, var(--cp-clear) 65%),
+        repeating-linear-gradient(0deg, var(--cp-clear) 0 27px, var(--cp-glass-line) 28px 29px);
+      opacity: 0.4;
+    }
+    @supports (backdrop-filter: blur(6px)) {
+      .glass-pane { backdrop-filter: blur(6px); }
+    }
+    .cover-cyan { width: 17%; height: 300px; left: -3%; top: -28px; }
+    .cover-violet { --cp-pane-light: var(--cp-glass-pink); --cp-pane-dark: var(--cp-glass-violet); width: 13%; height: 240px; left: 10%; top: -140px; }
+    .cover-orange { --cp-pane-light: var(--cp-glass-peach); --cp-pane-dark: var(--cp-glass-orange); width: 14%; height: 250px; left: -2%; bottom: -22px; }
+    .cover-green { --cp-pane-light: var(--cp-glass-lime); --cp-pane-dark: var(--cp-glass-green); width: 12%; height: 200px; left: 9%; bottom: -90px; }
+    .cover-pink { --cp-pane-light: var(--cp-glass-lilac); --cp-pane-dark: var(--cp-glass-pink); width: 13%; height: 260px; right: 1%; top: -110px; }
+    .cover-blue { --cp-pane-light: var(--cp-glass-cyan); --cp-pane-dark: var(--cp-glass-blue); width: 16%; height: 330px; right: -2%; bottom: -10px; }
+    .cover-lilac { --cp-pane-light: var(--cp-glass-ice); --cp-pane-dark: var(--cp-glass-lilac); width: 13%; height: 230px; right: 8%; bottom: -115px; }
     .hero > .journey-title, .hero > .journey { grid-column: 1 / -1; }
-    .hero-kicker { display: flex; gap: 12px; align-items: center; margin-bottom: 24px; }
+    .hero-kicker { display: flex; gap: 12px; justify-content: center; align-items: center; margin-bottom: 24px; }
     .hero-kicker .line { width: 32px; height: 2px; background: var(--cp-accent); }
-    h1 { font-size: clamp(48px, 4.5vw, 72px); letter-spacing: -3px; font-weight: 600; }
-    h1 .title-prefix { font-size: 0.53em; letter-spacing: -1px; display: block; margin-bottom: 8px; font-weight: 400; }
-    h1 .title-main { color: var(--cp-accent); }
-    .tagline { max-width: 630px; margin-top: 24px; font-size: 20px; line-height: 1.5; color: var(--cp-text-muted); }
-    .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
-    .tag { font-size: 11px; font-weight: 600; padding: 5px 10px; border: 1px solid var(--cp-border); border-radius: 6px; background: var(--cp-bg-elevated); }
-    .brief { padding: 24px 28px; background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 16px; }
+    h1 { font-size: clamp(56px, 5vw, 88px); letter-spacing: -0.055em; font-weight: 750; line-height: 1.02; }
+    h1 .title-prefix { font-size: 0.42em; letter-spacing: -0.035em; display: block; margin-bottom: 16px; font-weight: 600; }
+    h1 .title-main { color: var(--cp-text); }
+    .hero-intro > .tagline { max-width: min(580px, 68%); }
+    .tagline { margin-top: 24px; font-size: 25px; font-style: italic; line-height: 1.4; color: var(--cp-text); }
+    .hero-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 24px; }
+    .tag { font-size: 11px; font-weight: 600; padding: 5px 10px; border: 1px solid var(--cp-border); border-radius: 20px; background: var(--cp-card); }
+    .brief { padding: 28px 32px; background: var(--cp-card); border: 1px solid var(--cp-border); border-radius: 12px; }
     .brief .eyebrow { margin-bottom: 16px; color: var(--cp-accent); }
     .brief > p + p { margin-top: 16px; }
     .brief > p { max-width: 780px; font-size: 15px; }
     .brief details { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--cp-border); }
+    .hero > .brief { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px 36px; }
+    .hero > .brief > .eyebrow { grid-column: 1 / -1; margin: 0; }
+    .hero > .brief > p { grid-column: 1; margin: 0; }
+    .hero > .brief > details { grid-column: 2; grid-row: 2 / span 2; margin: 0; padding: 0 0 0 32px; border-top: 0; border-left: 1px solid var(--cp-border); }
     summary { cursor: pointer; color: var(--cp-text); font-size: 13px; font-weight: 600; }
     details p { margin-top: 12px; font-size: 14px; color: var(--cp-text-muted); }
     .journey-title { margin: 8px 0 -8px; display: flex; justify-content: space-between; align-items: center; }
-    .journey-title h2 { font-size: 16px; font-weight: 600; }
+    .journey-title h2 { font-size: 22px; font-weight: 650; letter-spacing: -0.5px; }
     .journey-title span { font-size: 11px; color: var(--cp-text-muted); }
     .journey { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
-    .journey-card { position: relative; padding: 18px 16px; background: var(--cp-surface); border: 1px solid var(--cp-border); border-top: 3px solid var(--cp-station); border-radius: 10px; color: var(--cp-text); text-decoration: none; transition: transform 160ms; }
+    .journey-card { position: relative; padding: 20px; background: var(--cp-wash); border: 1px solid var(--cp-border); border-top: 3px solid var(--cp-station); border-radius: 10px; color: var(--cp-text); text-decoration: none; transition: transform 160ms; }
     .journey-card:hover { transform: translateY(-3px); }
     .journey-card small { font-size: 10px; display: block; color: var(--cp-text-muted); }
     .journey-card .app { margin: 14px 0 12px; }
-    .journey-card strong { display: block; font-size: 13px; line-height: 1.4; }
+    .journey-card strong { display: block; font-size: 17px; line-height: 1.25; letter-spacing: -0.3px; }
     .journey-card p { font-size: 11px; line-height: 1.5; margin-top: 8px; color: var(--cp-text-muted); }
-    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 24px; }
-    .primary { display: inline-flex; gap: 20px; align-items: center; padding: 11px 20px; border-radius: 10px; border: 1px solid var(--cp-accent); background: var(--cp-accent); color: var(--cp-accent-fg); text-decoration: none; font-size: 13px; font-weight: 600; }
+    .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px 20px; margin-top: 24px; }
+    .hero-actions > span { flex-basis: 100%; }
+    .primary { display: inline-flex; gap: 24px; align-items: center; padding: 12px 24px; border-radius: 28px; border: 1px solid var(--cp-accent); background: var(--cp-accent); color: var(--cp-accent-fg); text-decoration: none; font-size: 14px; font-weight: 600; }
     .primary:hover { background: var(--cp-accent-hover); }
     .hero-actions > span { font-size: 12px; color: var(--cp-text-muted); }
-    .getting-ready { padding: 28px 0 36px; border-top: 1px solid var(--cp-border); }
-    .getting-ready h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.5px; }
+    .getting-ready { margin-top: 28px; padding: 28px 0 36px; border-top: 1px solid var(--cp-border); }
+    .getting-ready h2 { font-size: 30px; font-weight: 700; letter-spacing: -0.8px; }
     .getting-ready > p { font-size: 14px; margin-top: 12px; color: var(--cp-text-muted); max-width: 780px; }
     .file-kit { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 20px; }
-    .kit-file { background: var(--cp-bg-elevated); border: 1px solid var(--cp-border); border-radius: 10px; padding: 16px; }
-    .kit-file strong { font-size: 13px; display: block; margin: 8px 0; }
+    .kit-file { background: var(--cp-card); border: 1px solid var(--cp-border); border-radius: 10px; padding: 24px; }
+    .kit-file strong { font-size: 17px; display: block; margin: 8px 0; }
     .filename { display: block; font: 11px/1.65 Consolas, "Courier New", Courier, monospace; overflow-wrap: anywhere; color: var(--cp-text-muted); }
     .download-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; padding: 8px 12px; border: 1px solid var(--cp-station); border-radius: 6px; color: var(--cp-station); font-size: 12px; font-weight: 600; text-decoration: none; }
     .download-link:hover { background: var(--cp-wash); }
     .setup a.filename { color: var(--cp-link); text-decoration: underline; }
-    .app { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; color: var(--cp-station); }
-    .app-icon { width: 26px; height: 28px; display: grid; place-items: center; background: var(--cp-station); color: var(--cp-surface); border-radius: 4px; font-size: 15px; font-weight: 700; }
-    .word { --cp-station: var(--cp-word); --cp-wash: var(--cp-word-soft); }
-    .excel { --cp-station: var(--cp-excel); --cp-wash: var(--cp-excel-soft); }
-    .powerpoint { --cp-station: var(--cp-powerpoint); --cp-wash: var(--cp-powerpoint-soft); }
-    .station { margin-top: 32px; border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface); }
-    .station-head { background: linear-gradient(120deg, var(--cp-wash), var(--cp-surface)); padding: 20px 28px; border-bottom: 1px solid var(--cp-border); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px 24px; align-items: center; }
+    .app { display: inline-flex; align-items: center; font-size: 12px; font-weight: 650; color: var(--cp-station); }
+    .word { --cp-station: var(--cp-word); --cp-wash: var(--cp-word-soft); --cp-glow: var(--cp-word-glow); --cp-art-light: var(--cp-glass-cyan); --cp-art-dark: var(--cp-glass-blue); }
+    .excel { --cp-station: var(--cp-excel); --cp-wash: var(--cp-excel-soft); --cp-glow: var(--cp-excel-glow); --cp-art-light: var(--cp-glass-lime); --cp-art-dark: var(--cp-glass-green); }
+    .powerpoint { --cp-station: var(--cp-powerpoint); --cp-wash: var(--cp-powerpoint-soft); --cp-glow: var(--cp-powerpoint-glow); --cp-art-light: var(--cp-glass-peach); --cp-art-dark: var(--cp-glass-orange); }
+    .station { margin-top: 48px; border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-card); }
+    .station-head {
+      position: relative; isolation: isolate; background: var(--cp-bg);
+      padding: 32px; border-bottom: 1px solid var(--cp-border); border-radius: 16px 16px 0 0;
+      display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; align-items: center;
+    }
+    .station-head > :not(.ribbon-art) { position: relative; z-index: 1; }
+    .station-head .glass-pane { --cp-pane-light: var(--cp-art-light); --cp-pane-dark: var(--cp-art-dark); }
+    .station-head .pane-back { width: 160px; height: 230px; right: 130px; top: -120px; }
+    .station-head .pane-main { width: 185px; height: 290px; right: -12px; top: -30px; }
+    .station-head .pane-front { --cp-pane-light: var(--cp-glass-ice); --cp-pane-dark: var(--cp-art-light); width: 150px; height: 180px; right: 88px; bottom: -85px; }
     .station-meta { display: flex; justify-content: space-between; gap: 24px; align-items: center; grid-column: 1 / -1; }
     .station-meta .eyebrow { color: var(--cp-station); }
-    .station-time { font-size: 11px; color: var(--cp-text-muted); }
-    .station-heading { display: flex; align-items: flex-start; gap: 20px; }
-    .big-number { font-size: 48px; line-height: 1; font-weight: 300; color: var(--cp-station); letter-spacing: -2px; }
-    .station h2 { font-size: 31px; font-weight: 600; letter-spacing: -0.8px; padding-top: 2px; }
-    .story-date { color: var(--cp-text-muted); font-size: 12px; margin-top: 10px; }
-    .skill-line { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; font-size: 12px; color: var(--cp-text-muted); }
+    .station-time { font-size: 11px; color: var(--cp-text-muted); padding: 4px 10px; background: var(--cp-card); border: 1px solid var(--cp-border); border-radius: 20px; }
+    .station-heading { display: flex; align-items: flex-start; gap: 28px; padding-right: 245px; }
+    .big-number { font-size: 72px; line-height: 1; font-weight: 400; font-style: italic; color: var(--cp-station); letter-spacing: -4px; }
+    .station h2 { font-size: clamp(32px, 2.8vw, 48px); font-weight: 750; letter-spacing: -0.04em; padding-top: 2px; }
+    .story-date { color: var(--cp-text); font-size: 19px; font-style: italic; line-height: 1.4; margin-top: 12px; }
+    .skill-line { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; padding-right: 245px; font-size: 12px; color: var(--cp-text-muted); }
     .skill-line > span + span { border-left: 1px solid var(--cp-border); padding-left: 16px; }
-    .station-body { padding: 24px 32px; display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 24px 32px; align-items: start; }
+    .station-body { padding: 32px; display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 32px; align-items: start; }
     .station-context, .station-work { min-width: 0; }
     .station-body > .station-footer { grid-column: 1 / -1; margin: 0; }
     .narrative p { font-size: 15px; max-width: 790px; }
@@ -218,7 +280,7 @@
     .run-heading { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 20px; margin: 0 0 12px; }
     .run-heading h3 { font-size: 15px; font-weight: 600; }
     .run-heading p { font-size: 11px; color: var(--cp-text-muted); }
-    .prompt-card { border: 1px solid var(--cp-border); border-radius: 10px; margin-top: 12px; overflow: hidden; }
+    .prompt-card { border: 1px solid var(--cp-border); border-radius: 10px; margin-top: 12px; overflow: hidden; background: var(--cp-surface); }
     .prompt-header { display: flex; align-items: center; gap: 12px; padding: 14px 20px; }
     .prompt-index { font-size: 11px; font-weight: 700; color: var(--cp-station); }
     .prompt-header h4 { font-size: 13px; font-weight: 600; flex: 1; line-height: 1.4; }
@@ -276,6 +338,15 @@
       .station-head, .station-body { padding: 24px; }
       .station-head { grid-template-columns: minmax(0, 1fr); }
       .hero { grid-template-columns: minmax(0, 1fr); }
+      .hero-intro { padding: 64px 16px; }
+      .hero-intro > :not(.ribbon-art), .hero-intro > .tagline { max-width: 76%; }
+      .hero > .brief { grid-template-columns: minmax(0, 1fr); }
+      .hero > .brief > details { grid-column: 1; grid-row: auto; padding: 16px 0 0; border-left: 0; border-top: 1px solid var(--cp-border); }
+      .station-head .ribbon-art { left: auto; width: 165px; }
+      .station-head .pane-main { right: -90px; }
+      .station-head .pane-back { right: 30px; }
+      .station-head .pane-front { right: -10px; }
+      .station-heading, .skill-line { padding-right: 120px; }
     }
     @media (max-width: 720px) {
       .layout { padding: 16px; display: block; }
@@ -286,14 +357,34 @@
       .nav-sub, .top-meta > span:first-child { display: none; }
       .app-status { margin: 16px 0 0; padding-top: 16px; }
       .station-body { grid-template-columns: minmax(0, 1fr); }
-      .hero { padding-top: 24px; }
+      .hero { padding: 0 0 24px; gap: 24px; }
+      .hero-intro { padding: 96px 0 100px; min-height: 0; }
+      .hero-intro > :not(.ribbon-art), .hero-intro > .tagline { max-width: 100%; }
+      .cover-cyan { width: 100px; height: 100px; top: -24px; left: -25px; border-radius: 28px; }
+      .cover-violet { width: 85px; height: 115px; top: -68px; left: 40px; border-radius: 28px; }
+      .cover-blue { width: 115px; height: 100px; bottom: -32px; right: -10px; border-radius: 28px; }
+      .cover-lilac { width: 80px; height: 95px; bottom: -60px; right: 80px; border-radius: 24px; }
+      .cover-orange, .cover-green, .cover-pink { display: none; }
+      .station-head .ribbon-art { width: 80px; }
+      .station-head .pane-main { width: 110px; right: -85px; }
+      .station-head .pane-back { width: 80px; right: -32px; top: -185px; }
+      .station-head .pane-front { width: 85px; right: -50px; bottom: -140px; }
+      .station-heading, .skill-line { padding-right: 20px; }
       .topbar-inner { padding: 0 20px; }
       .top-meta { gap: 8px; }
       .top-progress-label { min-width: auto; }
       .brand strong { font-size: 12px; }
       h1 { font-size: 48px; }
+      .tagline { font-size: 22px; }
+      .hero-kicker { gap: 8px; }
+      .hero-kicker .eyebrow { font-size: 10px; letter-spacing: 1px; }
+      .journey { grid-template-columns: minmax(0, 1fr); }
+      .journey-title { flex-wrap: wrap; gap: 8px; }
       .brief { padding: 24px; }
       .station h2 { font-size: 26px; }
+      .station-heading { gap: 16px; }
+      .big-number { font-size: 48px; letter-spacing: -2px; }
+      .story-date { font-size: 16px; }
       .station-meta { gap: 12px; }
       .prompt-header { padding: 12px; gap: 8px; flex-wrap: wrap; }
       .prompt-header h4 { min-width: 100px; }
@@ -306,7 +397,6 @@
   <header class="topbar">
     <div class="topbar-inner">
       <a href="#welcome" class="brand" aria-label="Project Bacon introduction">
-        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
         <span><strong>The Copilot Trek</strong><small>PROJECT BACON</small></span>
       </a>
       <div class="top-meta">
@@ -340,6 +430,12 @@
       <div id="welcome">
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-intro">
+        <div class="ribbon-art" aria-hidden="true">
+          <span class="glass-pane cover-violet"></span><span class="glass-pane cover-cyan"></span>
+          <span class="glass-pane cover-orange"></span><span class="glass-pane cover-green"></span>
+          <span class="glass-pane cover-pink"></span><span class="glass-pane cover-blue"></span>
+          <span class="glass-pane cover-lilac"></span>
+        </div>
         <div class="hero-kicker"><span class="line" aria-hidden="true"></span><span class="eyebrow">One crisis. Four stations. Your Copilot.</span></div>
         <h1 id="hero-title"><span class="title-prefix">The Copilot Trek:</span> <span class="title-main">Project Bacon</span></h1>
         <p class="tagline">A guided trek across Word, Excel, and PowerPoint — powered by Copilot.</p>
@@ -363,9 +459,9 @@
         <h2 id="ready-title">Your starting kit</h2>
         <p>Download these three source files to begin. Keep the originals and work on your own copies. Downloads require no sign-in; you'll use your own Microsoft 365 Copilot access to complete the activity. Your working files are never uploaded to this site.</p>
         <div class="file-kit">
-          <div class="kit-file word"><span class="app"><span class="app-icon" aria-hidden="true">W</span>Word</span><strong>The meeting transcript</strong><span class="filename">SISCC_August2026_Monthly_Meeting.docx</span><a class="download-link" href="./assets/SISCC_August2026_Monthly_Meeting.docx" download="SISCC_August2026_Monthly_Meeting.docx">Download transcript · DOCX ↓</a></div>
-          <div class="kit-file excel"><span class="app"><span class="app-icon" aria-hidden="true">X</span>Excel</span><strong>The provisions ledger</strong><span class="filename">Project_Bacon_Fleet_Provisions_Ledger.xlsx</span><a class="download-link" href="./assets/Project_Bacon_Fleet_Provisions_Ledger.xlsx" download="Project_Bacon_Fleet_Provisions_Ledger.xlsx">Download ledger · XLSX ↓</a></div>
-          <div class="kit-file word"><span class="app"><span class="app-icon" aria-hidden="true">W</span>Word</span><strong>The blank report template</strong><span class="filename">Project_Bacon_Crisis_Report_Template.docx</span><a class="download-link" href="./assets/Project_Bacon_Crisis_Report_Template.docx" download="Project_Bacon_Crisis_Report_Template.docx">Download template · DOCX ↓</a></div>
+          <div class="kit-file word"><span class="app">Word</span><strong>The meeting transcript</strong><span class="filename">SISCC_August2026_Monthly_Meeting.docx</span><a class="download-link" href="./assets/SISCC_August2026_Monthly_Meeting.docx" download="SISCC_August2026_Monthly_Meeting.docx">Download transcript · DOCX ↓</a></div>
+          <div class="kit-file excel"><span class="app">Excel</span><strong>The provisions ledger</strong><span class="filename">Project_Bacon_Fleet_Provisions_Ledger.xlsx</span><a class="download-link" href="./assets/Project_Bacon_Fleet_Provisions_Ledger.xlsx" download="Project_Bacon_Fleet_Provisions_Ledger.xlsx">Download ledger · XLSX ↓</a></div>
+          <div class="kit-file word"><span class="app">Word</span><strong>The blank report template</strong><span class="filename">Project_Bacon_Crisis_Report_Template.docx</span><a class="download-link" href="./assets/Project_Bacon_Crisis_Report_Template.docx" download="Project_Bacon_Crisis_Report_Template.docx">Download template · DOCX ↓</a></div>
         </div>
         <p><strong>Keep this page beside your Microsoft 365 apps.</strong> Open the named file, open Copilot, then copy and run the station's prompts in order in the same conversation. Wait for each response before continuing. You need access to Copilot in Word, Excel, and PowerPoint; the activity page itself needs no sign-in.</p>
         <details><summary>Before you run a prompt</summary><p>Save editable working copies to your work OneDrive or SharePoint if your app requires it. Use Copilot's file or source picker to attach the named originals; controls vary by app and rollout. If a source cannot be attached, or Copilot cannot edit your file, resolve that access or capability issue before continuing. Do not assume a filename typed into a prompt attaches the file. Review generated facts and numbers against the sources. This fictional exercise contains no real customer data.</p></details>
@@ -391,7 +487,7 @@
       const assetNames = new Set([transcript, ledger, template]);
       const stations = [
         {
-          id: "station-1-meeting", app: "word", appName: "Word", appLetter: "W",
+          id: "station-1-meeting", app: "word", appName: "Word",
           title: "The Emergency Meeting", skill: "Listen & summarize",
           focus: "Goal → Context → Expectations", storyDate: "Aug 14, 2026",
           storyLabel: "Day 0 — The Assimilation Event", shortDate: "AUG 14 · DAY 0",
@@ -411,7 +507,7 @@
           goFurther: "Want to go further? In a real workflow, you'd keep this recap and paste it straight into your report draft. Try it — save what Copilot just gave you, and ask Word's Copilot to work it into a paragraph."
         },
         {
-          id: "station-2-ledger", app: "excel", appName: "Excel", appLetter: "X",
+          id: "station-2-ledger", app: "excel", appName: "Excel",
           title: "Making Sense of the Chaos", skill: "Analyze",
           focus: "Clean → Analyze → Cross-reference", storyDate: "Aug 14–23, 2026",
           storyLabel: "The Investigation", shortDate: "AUG 14–23",
@@ -431,7 +527,7 @@
           ]
         },
         {
-          id: "station-3-crisis-report", app: "word", appName: "Word", appLetter: "W",
+          id: "station-3-crisis-report", app: "word", appName: "Word",
           title: "Writing the Crisis Report", skill: "Write",
           focus: "Multi-source drafting", storyDate: "Aug 22–24, 2026",
           storyLabel: "The Write-Up", shortDate: "AUG 22–24",
@@ -450,7 +546,7 @@
           ]
         },
         {
-          id: "station-4-briefing", app: "powerpoint", appName: "PowerPoint", appLetter: "P",
+          id: "station-4-briefing", app: "powerpoint", appName: "PowerPoint",
           title: "The Executive Briefing", skill: "Synthesize & present",
           focus: "Report → Executive deck", storyDate: "Sep 9, 2026",
           storyLabel: "Day 26 — The Gala", shortDate: "SEP 9 · DAY 26",
@@ -569,11 +665,7 @@
         renderProgress();
       }
       function appBadge(station) {
-        const badge = element("span", "app");
-        const icon = element("span", "app-icon", station.appLetter);
-        icon.setAttribute("aria-hidden", "true");
-        badge.append(icon, document.createTextNode(station.appName));
-        return badge;
+        return element("span", "app", station.appName);
       }
       function showManualCopy(card, prompt, id) {
         let panel = byId(`manual-${id}`);
@@ -675,6 +767,10 @@
           section.id = station.id;
           section.setAttribute("aria-labelledby", `${station.id}-title`);
           const head = element("div", "station-head");
+          const art = element("div", "ribbon-art");
+          art.setAttribute("aria-hidden", "true");
+          ["pane-back", "pane-main", "pane-front"].forEach(layer => art.append(element("span", `glass-pane ${layer}`)));
+          head.append(art);
           const meta = element("div", "station-meta");
           meta.append(element("span", "eyebrow", `Station ${number} / ${station.skill}`), element("span", "station-time", `${station.minutes} MIN`));
           const heading = element("div", "station-heading");
