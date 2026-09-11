@@ -87,6 +87,9 @@
     }
     :root {
       /* Glass artwork is decorative only; content surfaces remain opaque. */
+      --cp-copilot: #6941C6;
+      --cp-copilot-soft: #f1eefb;
+      --cp-copilot-glow: #b9a6ff;
       --cp-word: #2B579A;
       --cp-word-soft: #eef3fa;
       --cp-word-glow: #89d5fc;
@@ -243,6 +246,7 @@
     .download-link:hover { background: var(--cp-wash); }
     .setup a.filename { color: var(--cp-link); text-decoration: underline; }
     .app { display: inline-flex; align-items: center; font-size: 12px; font-weight: 650; color: var(--cp-station); }
+    .copilot { --cp-station: var(--cp-copilot); --cp-wash: var(--cp-copilot-soft); --cp-glow: var(--cp-copilot-glow); --cp-art-light: var(--cp-glass-lilac); --cp-art-dark: var(--cp-glass-violet); }
     .word { --cp-station: var(--cp-word); --cp-wash: var(--cp-word-soft); --cp-glow: var(--cp-word-glow); --cp-art-light: var(--cp-glass-cyan); --cp-art-dark: var(--cp-glass-blue); }
     .excel { --cp-station: var(--cp-excel); --cp-wash: var(--cp-excel-soft); --cp-glow: var(--cp-excel-glow); --cp-art-light: var(--cp-glass-lime); --cp-art-dark: var(--cp-glass-green); }
     .powerpoint { --cp-station: var(--cp-powerpoint); --cp-wash: var(--cp-powerpoint-soft); --cp-glow: var(--cp-powerpoint-glow); --cp-art-light: var(--cp-glass-peach); --cp-art-dark: var(--cp-glass-orange); }
@@ -280,22 +284,26 @@
     .run-heading { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 20px; margin: 0 0 12px; }
     .run-heading h3 { font-size: 15px; font-weight: 600; }
     .run-heading p { font-size: 11px; color: var(--cp-text-muted); }
-    .prompt-card { border: 1px solid var(--cp-border); border-radius: 10px; margin-top: 12px; overflow: hidden; background: var(--cp-surface); }
-    .prompt-header { display: flex; align-items: center; gap: 12px; padding: 14px 20px; }
-    .prompt-index { font-size: 11px; font-weight: 700; color: var(--cp-station); }
+    .prompt-card { border: 1.5px solid var(--cp-station); border-radius: 12px; margin-top: 16px; overflow: hidden; background: var(--cp-surface); box-shadow: 0 10px 28px -16px var(--cp-glass-shadow), 0 2px 0 var(--cp-clear); }
+    .prompt-header { display: flex; align-items: center; gap: 12px; padding: 14px 20px; background: var(--cp-wash); border-bottom: 1px solid var(--cp-border); }
+    .prompt-index { display: inline-flex; align-items: center; font-size: 10.5px; font-weight: 750; letter-spacing: 0.5px; text-transform: uppercase; color: var(--cp-accent-fg); background: var(--cp-station); padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
     .prompt-header h4 { font-size: 13px; font-weight: 600; flex: 1; line-height: 1.4; }
     .optional-tag { font-size: 10px; color: var(--cp-text-muted); border: 1px solid var(--cp-border); padding: 2px 7px; border-radius: 5px; white-space: nowrap; }
     .copy-button {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 92px;
-      padding: 7px 12px; border: 1px solid var(--cp-border); background: var(--cp-surface);
-      border-radius: 6px; color: var(--cp-text); font-size: 12px; font-weight: 600;
+      padding: 8px 14px; border: 1px solid var(--cp-station); background: var(--cp-station);
+      border-radius: 20px; color: var(--cp-accent-fg); font-size: 12px; font-weight: 700;
+      box-shadow: 0 4px 12px -4px var(--cp-station);
     }
-    .copy-button:hover { background: var(--cp-wash); border-color: var(--cp-station); color: var(--cp-station); }
+    .copy-button:hover { filter: brightness(1.08); }
     .copy-button:disabled { cursor: wait; }
     .copy-icon { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.5; }
-    .prompt-text { white-space: pre-wrap; overflow-wrap: anywhere; margin: 0; padding: 18px 20px; background: var(--cp-bg-elevated); border-top: 1px solid var(--cp-border); font: 13px/1.85 Consolas, "Courier New", Courier, monospace; }
+    .prompt-text { position: relative; white-space: pre-wrap; overflow-wrap: anywhere; margin: 0; padding: 20px 22px 20px 28px; background: var(--cp-bg-elevated); border-top: 1px solid var(--cp-border); border-left: 4px solid var(--cp-station); font: 14px/1.85 Consolas, "Courier New", Courier, monospace; color: var(--cp-text); }
     .prompt-help { font-size: 12px; color: var(--cp-text-muted); padding: 12px 20px; border-top: 1px solid var(--cp-border); }
-    .prompt-card.used { border-left: 3px solid var(--cp-station); }
+    .prompt-card.used { box-shadow: none; border-color: var(--cp-border); }
+    .prompt-card.used .prompt-header { background: var(--cp-surface-soft); }
+    .prompt-card.used .prompt-index { background: var(--cp-accent-soft); color: var(--cp-accent); }
+    .prompt-card.used .copy-button { background: var(--cp-surface); color: var(--cp-station); box-shadow: none; }
     .manual-copy { padding: 16px 20px; border-top: 1px solid var(--cp-border); background: var(--cp-wash); }
     .manual-copy p { font-size: 12px; margin-bottom: 12px; }
     .manual-copy textarea { width: 100%; min-height: 110px; padding: 12px; resize: vertical; border: 1px solid var(--cp-border-strong); border-radius: 6px; color: var(--cp-text); background: var(--cp-surface); font: 13px/1.6 Consolas, "Courier New", Courier, monospace; }
@@ -487,24 +495,24 @@
       const assetNames = new Set([transcript, ledger, template]);
       const stations = [
         {
-          id: "station-1-meeting", app: "word", appName: "Word",
+          id: "station-1-meeting", app: "copilot", appName: "Copilot",
           title: "The Emergency Meeting", skill: "Listen & summarize",
           focus: "Goal → Context → Expectations", storyDate: "Aug 14, 2026",
           storyLabel: "Day 0 — The Assimilation Event", shortDate: "AUG 14 · DAY 0",
           summary: "Turn a live transcript into a real recap.", minutes: "4–5",
-          dependsOn: [], sourceFiles: [{name: transcript, role: "Open in Word"}],
+          dependsOn: [], sourceFiles: [{name: transcript, role: "Attach in Copilot"}],
           narrative: [
             "It's Day 0. Five officers just got pulled into an unscheduled call about a vendor none of them expected to lose overnight. Somebody has to turn that conversation into something usable — and that's exactly the kind of task Copilot is built for, if you ask it the right way.",
             'This station is a quick tour of how to ask. You\'ll run the same request three times, adding one new piece of information each time, and watch the output visibly get better. By the end you\'ll have a real recap — and a feel for why "summarize this" and "summarize this for my boss" produce two completely different documents.'
           ],
-          setup: "Open your copy of the transcript in Word, then open Copilot. Run all three prompts in the same conversation so each builds on the previous answer.",
+          setup: "Open Copilot — the Microsoft 365 Copilot app, or copilot.microsoft.com — and attach your copy of the transcript directly in the chat. No Office app needed yet; that starts at the next station. Run all three prompts in the same conversation so each builds on the previous answer.",
           inputNote: "Start here with just the transcript. Your recap is a learning artifact; later stations do not require it.",
           prompts: [
             {title: "Baseline — let Copilot decide", required: true, text: "Summarize this meeting.", help: "Read the first answer before adding more direction."},
             {title: "Add Goal + Context", required: true, text: "I need to brief Admiral Nechayev's office on this crisis. Redo the summary as something I could actually send: lead with decisions and action items, not play-by-play.", help: "Notice how naming your audience changes what comes first."},
             {title: "Add Expectations", required: true, text: "Format it with these headings: Who Spoke, What Was Decided, Open Questions, Action Items (table: Action Item, Owner, Due Date). Keep it factual, no commentary.", help: "Compare the structure with your first summary. Check owners and dates against the transcript."}
           ],
-          goFurther: "Want to go further? In a real workflow, you'd keep this recap and paste it straight into your report draft. Try it — save what Copilot just gave you, and ask Word's Copilot to work it into a paragraph."
+          goFurther: "Want to go further? In a real workflow, you'd keep this recap and paste it straight into your report draft. Try it — save what Copilot just gave you, open it in Word, and ask Copilot there to work it into a paragraph. (Your first taste of Word — Station 3 is where it really kicks in.)"
         },
         {
           id: "station-2-ledger", app: "excel", appName: "Excel",
