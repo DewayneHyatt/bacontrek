@@ -18,42 +18,63 @@
   <style>
     :root {
       color-scheme: light;
-      --cp-bg: #f7f8f0;
-      --cp-bg-elevated: #fafbf6;
-      --cp-surface: #ffffff;
-      --cp-surface-soft: #f0f3e9;
-      --cp-border: #d9ded3;
-      --cp-border-strong: #919191;
-      --cp-text: #20231f;
-      --cp-text-muted: #535b52;
-      --cp-text-soft: #626b60;
-      --cp-accent: #243d39;
-      --cp-accent-hover: #152c28;
-      --cp-accent-soft: #e5ede4;
-      --cp-accent-fg: #ffffff;
+      /* Brand foundation: Neutral #F6F9F0 + Black #242424 + the Black tint ramp.
+         Ramp: #242424 / #3A3A3A 90% / #666666 70% / #919191 50% / #BDBDBD 30% */
+      --ms-neutral: #F6F9F0;
+      --ms-black: #242424;
+      --ms-black-90: #3A3A3A;
+      --ms-black-70: #666666;
+      --ms-black-50: #919191;
+      --ms-black-30: #BDBDBD;
+      --ms-white: #FFFFFF;
+      --cp-bg: var(--ms-neutral);
+      --cp-bg-elevated: #FAFCF5;
+      --cp-surface: var(--ms-white);
+      --cp-surface-soft: #EFF3E8;
+      --cp-border: #DDE2D6;
+      --cp-border-strong: var(--ms-black-50);
+      --cp-text: var(--ms-black);
+      --cp-text-muted: var(--ms-black-70);
+      --cp-text-soft: var(--ms-black-50);
+      /* Accent is Black, not the old off-palette green. Color stays reserved
+         for product moments; CTAs are neutral and high-contrast. */
+      --cp-accent: var(--ms-black);
+      --cp-accent-hover: #000000;
+      --cp-accent-soft: #EAEFE2;
+      --cp-accent-fg: var(--ms-white);
       --cp-success: #16a34a;
       --cp-danger: #dc2626;
       --cp-warning: #f59e0b;
       --cp-link: #0078d4;
-      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-shadow: 0 18px 48px rgba(36, 36, 36, 0.10);
       --cp-overlay: rgba(255, 255, 255, 0.8);
       --cp-panel: rgba(255, 255, 255, 0.86);
       --cp-panel-strong: rgba(255, 255, 255, 0.96);
       --cp-sheen: rgba(255, 255, 255, 0.55);
       --cp-highlight: #e3f3f6;
-      --cp-card: #f6f9f0;
+      --cp-card: var(--ms-neutral);
       --cp-sky: #7dd9ff;
       --cp-sky-soft: #aae8ff;
-      --cp-glass-cyan: rgba(0, 199, 248, 0.68);
-      --cp-glass-blue: rgba(0, 63, 255, 0.94);
-      --cp-glass-violet: rgba(137, 36, 226, 0.84);
-      --cp-glass-pink: rgba(231, 65, 234, 0.68);
-      --cp-glass-orange: rgba(255, 98, 35, 0.86);
-      --cp-glass-lime: rgba(184, 237, 96, 0.76);
-      --cp-glass-green: rgba(14, 165, 91, 0.88);
-      --cp-glass-ice: rgba(191, 244, 255, 0.62);
-      --cp-glass-lilac: rgba(215, 177, 255, 0.68);
-      --cp-glass-peach: rgba(255, 215, 177, 0.72);
+      /* Glass fills retuned to the published Bright/Light product values.
+         Outlook Bright #00AFE3 / Light #B2F7FF, Word Bright #0055D4 / Light #4DADFF,
+         Teams Bright #9543FF / Light #C5B8FF, OneNote Bright #DE4BFF / Light #FFA6F0,
+         PowerPoint #ED5300 / Light #FFD3BF, Excel Bright #359238 / Light #C8F5B7 */
+      --cp-glass-cyan: rgba(0, 175, 227, 0.68);
+      --cp-glass-blue: rgba(0, 85, 212, 0.92);
+      --cp-glass-violet: rgba(149, 67, 255, 0.84);
+      --cp-glass-pink: rgba(222, 75, 255, 0.68);
+      --cp-glass-orange: rgba(237, 83, 0, 0.86);
+      --cp-glass-lime: rgba(200, 245, 183, 0.82);
+      --cp-glass-green: rgba(53, 146, 56, 0.88);
+      --cp-glass-ice: rgba(178, 247, 255, 0.62);
+      --cp-glass-lilac: rgba(197, 184, 255, 0.70);
+      --cp-glass-peach: rgba(255, 211, 191, 0.74);
+      /* Copilot overlap colors. Only these two are used for Copilot-brand
+         overlaps. APPROX values: Brand Central describes the identity as
+         "vibrant sky blues and greenfield greens" but publishes the swatches
+         as images. Replace from aka.ms/CopilotIdentity before external use. */
+      --cp-overlap-green: #7FE3A0;
+      --cp-overlap-blue: #7FC9FF;
       --cp-glass-edge: rgba(255, 255, 255, 0.78);
       --cp-glass-reflection: rgba(255, 255, 255, 0.64);
       --cp-glass-shadow: rgba(34, 62, 126, 0.12);
@@ -61,48 +82,127 @@
     }
     html[data-theme="dark"] {
       color-scheme: dark;
-      --cp-bg: #3d3b3a;
-      --cp-bg-elevated: #343231;
-      --cp-surface: #292929;
-      --cp-surface-soft: #2e2e2e;
-      --cp-border: #474747;
-      --cp-border-strong: #5f5f5f;
-      --cp-text: #dedede;
-      --cp-text-muted: #919191;
-      --cp-text-soft: #b0b0b0;
-      --cp-accent: #fd8ea1;
-      --cp-accent-hover: #fb7b91;
-      --cp-accent-soft: rgba(253, 142, 161, 0.14);
-      --cp-accent-fg: #1a1a1a;
+      /* Dark mode: Black is the foundation, Black 90% is the neutral backdrop,
+         White and Neutral provide contrast for the most important content. */
+      --cp-bg: var(--ms-black);
+      --cp-bg-elevated: var(--ms-black-90);
+      --cp-surface: var(--ms-black-90);
+      --cp-surface-soft: #333333;
+      --cp-border: #4A4A4A;
+      --cp-border-strong: var(--ms-black-70);
+      --cp-text: var(--ms-white);
+      --cp-text-muted: var(--ms-black-30);
+      --cp-text-soft: var(--ms-black-50);
+      --cp-accent: var(--ms-neutral);
+      --cp-accent-hover: var(--ms-white);
+      --cp-accent-soft: rgba(246, 249, 240, 0.12);
+      --cp-accent-fg: var(--ms-black);
       --cp-success: #4ade80;
       --cp-danger: #f87171;
       --cp-warning: #fbbf24;
       --cp-link: #4da6ff;
-      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
-      --cp-overlay: rgba(41, 41, 41, 0.88);
-      --cp-panel: rgba(41, 41, 41, 0.72);
-      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.42);
+      --cp-overlay: rgba(36, 36, 36, 0.88);
+      --cp-panel: rgba(36, 36, 36, 0.72);
+      --cp-panel-strong: rgba(36, 36, 36, 0.96);
       --cp-sheen: rgba(255, 255, 255, 0.04);
-      --cp-highlight: rgba(253, 142, 161, 0.12);
+      --cp-highlight: rgba(246, 249, 240, 0.10);
+      --cp-card: var(--ms-black-90);
+      /* Product colors switch to their published Dark variants */
+      --cp-word: #4DADFF;        --cp-word-soft: #002966;
+      --cp-excel: #C8F5B7;       --cp-excel-soft: #1B4B1D;
+      --cp-powerpoint: #FFD3BF;  --cp-powerpoint-soft: #662400;
+      --cp-copilot: #C5B8FF;     --cp-copilot-soft: #2C0066;
+      /* Dark mode labels sit on dark fills, so the Light variants are correct
+         and already clear AA; no separate label shade is needed. */
+      --cp-word-label: #4DADFF;
+      --cp-teams-label: #C5B8FF;
+      --cp-excel-label: #C8F5B7;
+      --cp-ppt-label: #FFD3BF;
     }
     :root {
       /* Glass artwork is decorative only; content surfaces remain opaque. */
-      --cp-copilot: #6941C6;
-      --cp-copilot-soft: #f1eefb;
-      --cp-copilot-glow: #b9a6ff;
-      --cp-word: #2B579A;
-      --cp-word-soft: #eef3fa;
-      --cp-word-glow: #89d5fc;
-      --cp-excel: #217346;
-      --cp-excel-soft: #edf6ef;
-      --cp-excel-glow: #94dfa8;
-      --cp-powerpoint: #D24726;
-      --cp-powerpoint-soft: #fcf0eb;
-      --cp-powerpoint-glow: #ffb083;
+      /* Published product triads. Bright for type, rules and UI accents.
+         Light for washes and card fills. Dark for dark mode. */
+      --ms-word-bright: #0055D4;   --ms-word-light: #4DADFF;   --ms-word-dark: #002966;
+      --ms-excel-bright: #359238;  --ms-excel-light: #C8F5B7;  --ms-excel-dark: #1B4B1D;
+      --ms-ppt-bright: #ED5300;    --ms-ppt-light: #FFD3BF;    --ms-ppt-dark: #662400;
+      --ms-outlook-bright: #00AFE3; --ms-outlook-light: #B2F7FF; --ms-outlook-dark: #004256;
+      --ms-teams-bright: #9543FF;  --ms-teams-light: #C5B8FF;  --ms-teams-dark: #2C0066;
+      --ms-onenote-bright: #DE4BFF; --ms-onenote-light: #FFA6F0; --ms-onenote-dark: #530066;
+      /* ED5300 is the accessibility-tweaked PowerPoint Bright. The raw brand
+         value FF5900 is not used here because it carries text and thin strokes. */
+      /* Station 1 recaps a Teams meeting, so it leads with the published
+         Teams triad rather than the neutral Copilot-brand treatment.
+         Note: the old #6941C6 was the legacy Teams purple; #9543FF is the
+         published Bright value and is noticeably more saturated. */
+      --cp-copilot: var(--ms-teams-bright);
+      --cp-copilot-soft: #F2EDFF;
+      --cp-copilot-glow: var(--ms-teams-light);
+      /* Alternative neutral Copilot-brand treatment (Neutral + Black + Overlap):
+      --cp-copilot: var(--ms-black); --cp-copilot-soft: #EDF4F7; --cp-copilot-glow: var(--cp-overlap-blue); */
+      --cp-word: var(--ms-word-bright);
+      --cp-word-soft: #E8F2FF;
+      --cp-word-glow: var(--ms-word-light);
+      --cp-excel: var(--ms-excel-bright);
+      --cp-excel-soft: #EDF8E8;
+      --cp-excel-glow: var(--ms-excel-light);
+      --cp-powerpoint: var(--ms-ppt-bright);
+      --cp-powerpoint-soft: #FFF0E8;
+      --cp-powerpoint-glow: var(--ms-ppt-light);
+      /* AA label shades. The published Bright values are tuned for fills, not
+         small type: on Neutral they measure Word 6.07:1, Teams 4.36:1,
+         Excel 3.71:1, PowerPoint 3.38:1, so three of four miss the 4.5:1 AA
+         threshold for the eyebrow, app badge and next-link. These are the
+         minimum shifts toward each app's published Dark variant that clear AA
+         on BOTH the page background and the station wash. Used for those three
+         small labels only; every fill, border, button and pane keeps Bright. */
+      --cp-word-label: var(--ms-word-bright);   /* 6.07:1 - already passes */
+      --cp-teams-label: #8C3DF1;                /* 4.87:1 neutral, 4.52:1 wash */
+      --cp-excel-label: #2E8031;                /* 4.64:1 neutral, 4.52:1 wash */
+      --cp-ppt-label: #C34400;                  /* 4.76:1 neutral, 4.55:1 wash */
       --cp-clear: transparent;
       --cp-station: var(--cp-word);
+      --cp-label: var(--cp-word-label);
       --cp-wash: var(--cp-word-soft);
       --cp-glow: var(--cp-word-glow);
+      /* Headlines lead with Segoe Serif, body and UI stay Segoe Sans. */
+      --cp-font-sans: "Segoe Sans Display", "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+      --cp-font-serif: "Segoe Serif Display", "Sitka Display", Cambria, Georgia, "Times New Roman", serif;
+      --cp-font-mono: Consolas, "Courier New", Courier, monospace;
+      --ms-sky-gradient: linear-gradient(155deg, #FFFFFF 0%, #DCF0FF 34%, #A8DCFF 68%, #7FC9FF 100%);
+      /* PANE GEOMETRY. The silhouette derives from the Copilot mark: a sheared
+         frame with three generous corners and one tight corner. Radii are
+         expressed as PERCENTAGES so the horizontal component resolves against
+         width and the vertical against height, independently. A single length
+         radius computed from height (the previous approach) exceeded half the
+         width on tall panes, and CSS clamps any radius larger than half an edge
+         into a semicircle, which is what produced the "tubular" capsules. */
+      --pane-r-lg-x: 38%;
+      --pane-r-sm-x: 9%;
+      --pane-r-lg-y: 34%;
+      --pane-r-sm-y: 8%;
+      /* Rustic grain. The Copilot Signature hero art is built from overlapping
+         blue and green shapes carrying a heavy film-grain tooth; this is that
+         texture as an inline feTurbulence SVG, so there is no asset to ship. */
+      --cp-grain-coarse: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27180%27%20height%3D%27180%27%3E%3Cfilter%20id%3D%27g%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.72%27%20numOctaves%3D%274%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20type%3D%27saturate%27%20values%3D%270%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27180%27%20height%3D%27180%27%20filter%3D%27url%28%23g%29%27%20opacity%3D%270.62%27%2F%3E%3C%2Fsvg%3E");
+      --cp-grain-fine: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27180%27%20height%3D%27180%27%3E%3Cfilter%20id%3D%27g%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.95%27%20numOctaves%3D%273%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20type%3D%27saturate%27%20values%3D%270%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27180%27%20height%3D%27180%27%20filter%3D%27url%28%23g%29%27%20opacity%3D%270.4%27%2F%3E%3C%2Fsvg%3E");
+      /* App-specific UI textures. "Every Microsoft 365 app has ownable visual
+         elements, shaped by the way people use it." Outlook's calendar grid,
+         Excel's cells, Word's baselines, OneNote's ruled paper, Teams' channel
+         rows, PowerPoint's slide canvas. Inline SVG: no asset, no request. */
+      --cp-tex-outlook: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27120%27%20height%3D%27120%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cg%20fill%3D%27none%27%20stroke-width%3D%271%27%3E%3Cpath%20d%3D%27M0%20.5H120M0%2028.5H120M0%2056.5H120M0%2084.5H120M0%20112.5H120%27%20stroke%3D%27rgba%28255%2C255%2C255%2C0.55%29%27%2F%3E%3Cpath%20d%3D%27M40.5%200V120M80.5%200V120%27%20stroke%3D%27rgba%28255%2C255%2C255%2C0.32%29%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+      --cp-tex-excel: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27120%27%20height%3D%27120%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27rgba%28255%2C255%2C255%2C0.55%29%27%20stroke-width%3D%271%27%3E%3Cpath%20d%3D%27M0%20.5H120M0%2020.5H120M0%2040.5H120M0%2060.5H120M0%2080.5H120M0%20100.5H120%27%2F%3E%3Cpath%20d%3D%27M24.5%200V120M48.5%200V120M72.5%200V120M96.5%200V120%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+      --cp-tex-word: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27120%27%20height%3D%27120%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27rgba%28255%2C255%2C255%2C0.55%29%27%20stroke-width%3D%271%27%3E%3Cpath%20d%3D%27M0%2012.5H120M0%2036.5H120M0%2060.5H120M0%2084.5H120M0%20108.5H120%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+      --cp-tex-onenote: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27120%27%20height%3D%27120%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cg%20fill%3D%27none%27%3E%3Cpath%20d%3D%27M0%2014.5H120M0%2034.5H120M0%2054.5H120M0%2074.5H120M0%2094.5H120M0%20114.5H120%27%20stroke%3D%27rgba%28255%2C255%2C255%2C0.55%29%27%20stroke-width%3D%271%27%2F%3E%3Cpath%20d%3D%27M18.5%200V120%27%20stroke%3D%27rgba%28255%2C255%2C255%2C0.42%29%27%20stroke-width%3D%271%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+      --cp-tex-teams: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27120%27%20height%3D%27120%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27rgba%28255%2C255%2C255%2C0.32%29%27%20stroke-width%3D%271%27%3E%3Cpath%20d%3D%27M0%2024.5H120M0%2060.5H120M0%2096.5H120%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+      --cp-tex-powerpoint: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27120%27%20height%3D%27120%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27rgba%28255%2C255%2C255%2C0.32%29%27%20stroke-width%3D%271%27%3E%3Crect%20x%3D%2714.5%27%20y%3D%2722.5%27%20width%3D%2791%27%20height%3D%2752%27%20rx%3D%273%27%2F%3E%3Cpath%20d%3D%27M14.5%2092.5H105M14.5%20106.5H74%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+      /* Signature gesture colors: vibrant sky blue and greenfield green. */
+      --cp-sky-light: #8FD9F7;
+      --cp-sky-deep: #2BB3E8;
+      --cp-field-light: #BFE08A;
+      --cp-field-deep: #4E9A4A;
+      --ms-sky-gradient-soft: linear-gradient(155deg, #FFFFFF 0%, #EDF7FF 45%, #D4ECFF 100%);
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; scroll-padding-top: 88px; }
@@ -110,7 +210,7 @@
       margin: 0;
       background: var(--cp-bg);
       color: var(--cp-text);
-      font: 16px/1.65 "Segoe Sans Display", "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+      font: 16px/1.65 var(--cp-font-sans);
     }
     button, input, textarea { font: inherit; }
     button, a, input { -webkit-tap-highlight-color: var(--cp-clear); }
@@ -154,7 +254,7 @@
       display: grid; place-items: center; flex-shrink: 0; width: 28px; height: 28px;
       border: 1px solid var(--cp-border); border-radius: 50%; font-size: 12px; font-weight: 650; font-style: italic;
     }
-    .nav-link[aria-current="location"] .nav-num { background: var(--cp-surface); border-color: var(--cp-station); color: var(--cp-station); }
+    .nav-link[aria-current="location"] .nav-num { background: var(--cp-surface); border-color: var(--cp-station); color: var(--cp-label); }
     .nav-link.done .nav-num { color: var(--cp-accent); background: var(--cp-accent-soft); border-color: var(--cp-accent); }
     .nav-title { display: block; font-size: 13px; line-height: 1.35; font-weight: 600; }
     .nav-sub { display: block; font-size: 10px; margin-top: 5px; color: var(--cp-text-soft); }
@@ -175,38 +275,156 @@
     .glass-pane {
       --cp-pane-light: var(--cp-glass-ice);
       --cp-pane-dark: var(--cp-glass-cyan);
-      position: absolute; display: block; transform: skewX(-15deg);
-      border: 1px solid var(--cp-glass-edge); border-radius: 56px;
+      /* 14 degree shear is the Copilot icon angle. */
+      --pane-h: 300px;
+      position: absolute; display: block; transform: skewX(-14deg);
+      height: var(--pane-h);
+      border: 1px solid var(--cp-glass-edge);
+      /* Three generous corners, one tight corner at bottom-left. */
+      border-radius:
+        var(--pane-r-lg-x) var(--pane-r-lg-x) var(--pane-r-lg-x) var(--pane-r-sm-x) /
+        var(--pane-r-lg-y) var(--pane-r-lg-y) var(--pane-r-lg-y) var(--pane-r-sm-y);
       background:
         radial-gradient(ellipse at 28% 18%, var(--cp-glass-reflection), var(--cp-clear) 58%),
         linear-gradient(145deg, var(--cp-pane-light), var(--cp-pane-dark) 78%);
       box-shadow: inset 2px 2px 2px var(--cp-glass-edge), inset -1px -1px 2px var(--cp-glass-reflection), 0 12px 24px -16px var(--cp-glass-shadow);
     }
+    /* Mirrored silhouette, tight corner at top-right. Alternating the two
+       across a composition is what makes overlapping shapes nest the way the
+       brand art does instead of reading as repeated stamps of one form. */
+    .glass-pane.pane-flip,
+    .cover-violet,
+    .cover-green,
+    .cover-lilac,
+    .station-head .pane-overlap {
+      border-radius:
+        var(--pane-r-lg-x) var(--pane-r-sm-x) var(--pane-r-lg-x) var(--pane-r-lg-x) /
+        var(--pane-r-lg-y) var(--pane-r-sm-y) var(--pane-r-lg-y) var(--pane-r-lg-y);
+    }
+    /* Reflection plus the app's own UI texture. "Every Microsoft 365 app has
+       ownable visual elements, shaped by the way people use it." The texture is
+       the top layer so the ruled lines read clearly through the gradient fill. */
     .glass-pane::after {
       content: ""; position: absolute; inset: 0; border-radius: inherit;
-      background:
-        linear-gradient(125deg, var(--cp-clear) 30%, var(--cp-glass-reflection) 48%, var(--cp-clear) 65%),
-        repeating-linear-gradient(0deg, var(--cp-clear) 0 27px, var(--cp-glass-line) 28px 29px);
-      opacity: 0.4;
+      background-image:
+        var(--cp-pane-texture, none),
+        linear-gradient(125deg, var(--cp-clear) 30%, var(--cp-glass-reflection) 48%, var(--cp-clear) 65%);
+      background-size: var(--cp-texture-scale, 120px 120px), auto;
+      background-repeat: repeat, no-repeat;
+      opacity: var(--cp-texture-opacity, 0.42);
+      pointer-events: none;
+    }
+    /* Grain layer, clipped to the silhouette. fractalNoise is isotropic so the
+       14 degree shear does not need compensating. */
+    .glass-pane::before {
+      content: ""; position: absolute; inset: 0; border-radius: inherit;
+      background-image: var(--cp-grain-fine);
+      background-size: 170px 170px;
+      mix-blend-mode: overlay;
+      opacity: var(--cp-grain-strength, 0.5);
+      pointer-events: none;
     }
     @supports (backdrop-filter: blur(6px)) {
       .glass-pane { backdrop-filter: blur(6px); }
     }
-    .cover-cyan { width: 17%; height: 300px; left: -3%; top: -28px; }
-    .cover-violet { --cp-pane-light: var(--cp-glass-pink); --cp-pane-dark: var(--cp-glass-violet); width: 13%; height: 240px; left: 10%; top: -140px; }
-    .cover-orange { --cp-pane-light: var(--cp-glass-peach); --cp-pane-dark: var(--cp-glass-orange); width: 14%; height: 250px; left: -2%; bottom: -22px; }
-    .cover-green { --cp-pane-light: var(--cp-glass-lime); --cp-pane-dark: var(--cp-glass-green); width: 12%; height: 200px; left: 9%; bottom: -90px; }
-    .cover-pink { --cp-pane-light: var(--cp-glass-lilac); --cp-pane-dark: var(--cp-glass-pink); width: 13%; height: 260px; right: 1%; top: -110px; }
-    .cover-blue { --cp-pane-light: var(--cp-glass-cyan); --cp-pane-dark: var(--cp-glass-blue); width: 16%; height: 330px; right: -2%; bottom: -10px; }
-    .cover-lilac { --cp-pane-light: var(--cp-glass-ice); --cp-pane-dark: var(--cp-glass-lilac); width: 13%; height: 230px; right: 8%; bottom: -115px; }
+    /* HERO - Brand Central defines two hero types. Signature is "a singular,
+       iconic gesture"; Hero is "a flexible integration of Copilot expression,
+       app identities, product UI, and texture". This page is the Hero type:
+       the Signature gesture occupies the top-left corner only, and the rest of
+       the composition carries the full app palette with app-specific texture.
+       Panes are proportioned near 1:1.1, matching the reference art; the old
+       1:1.9 proportions read as tubes regardless of corner treatment. */
+    .hero-intro .ribbon-art { isolation: isolate; }
+    /* Sky-blue half of the Signature gesture, carrying Outlook's calendar grid */
+    .cover-cyan {
+      --cp-pane-light: var(--cp-sky-light);
+      --cp-pane-dark: var(--cp-sky-deep);
+      --cp-pane-texture: var(--cp-tex-outlook);
+      --cp-texture-opacity: 0.34;
+      --cp-grain-strength: 0.72;
+      width: 19%; --pane-h: 330px; left: -3%; top: -46px;
+      opacity: 0.95;
+    }
+    /* Greenfield-green half - crosses the blue. Its ::after carries a left-edge
+       frost so the intersection reads light and misted, the way the Signature
+       art does, rather than darkened. */
+    .cover-violet {
+      --cp-pane-light: var(--cp-field-light);
+      --cp-pane-dark: var(--cp-field-deep);
+      --cp-grain-strength: 0.72;
+      width: 16%; --pane-h: 290px; left: 10%; top: 104px;
+      opacity: 0.94;
+    }
+    .cover-violet::after {
+      background-image: linear-gradient(128deg,
+        rgba(255, 255, 255, 0.96) 0%,
+        rgba(255, 255, 255, 0.82) 16%,
+        rgba(255, 255, 255, 0.34) 36%,
+        var(--cp-clear) 56%);
+      background-size: auto;
+      opacity: 1;
+    }
+    /* The rest of the composition: app identities, product UI and texture.
+       Each pane carries its app's own color and the interaction-inspired
+       texture that app is known for. */
+    .cover-orange {
+      --cp-pane-light: var(--ms-ppt-light); --cp-pane-dark: var(--ms-ppt-bright);
+      --cp-pane-texture: var(--cp-tex-powerpoint); --cp-texture-opacity: 0.5;
+      --cp-grain-strength: 0.46;
+      width: 15%; --pane-h: 230px; left: -3%; bottom: -26px; opacity: 0.88;
+    }
+    .cover-green {
+      --cp-pane-light: var(--ms-excel-light); --cp-pane-dark: var(--ms-excel-bright);
+      --cp-pane-texture: var(--cp-tex-excel); --cp-texture-opacity: 0.44;
+      --cp-grain-strength: 0.46;
+      width: 13%; --pane-h: 195px; left: 9%; bottom: -78px; opacity: 0.9;
+    }
+    .cover-pink {
+      --cp-pane-light: var(--ms-onenote-light); --cp-pane-dark: var(--ms-onenote-bright);
+      --cp-pane-texture: var(--cp-tex-onenote); --cp-texture-opacity: 0.46;
+      --cp-grain-strength: 0.46;
+      width: 14%; --pane-h: 235px; right: 2%; top: -108px; opacity: 0.82;
+    }
+    .cover-blue {
+      --cp-pane-light: var(--ms-word-light); --cp-pane-dark: var(--ms-word-bright);
+      --cp-pane-texture: var(--cp-tex-word); --cp-texture-opacity: 0.44;
+      --cp-grain-strength: 0.5;
+      width: 17%; --pane-h: 300px; right: -3%; bottom: -14px; opacity: 0.9;
+    }
+    .cover-lilac {
+      --cp-pane-light: var(--ms-teams-light); --cp-pane-dark: var(--ms-teams-bright);
+      --cp-pane-texture: var(--cp-tex-teams); --cp-texture-opacity: 0.5;
+      --cp-grain-strength: 0.44;
+      width: 13%; --pane-h: 205px; right: 6%; bottom: -96px; opacity: 0.76;
+    }
+    /* Coarse grain belongs to the Signature gesture only */
+    .hero-intro .cover-cyan::before,
+    .hero-intro .cover-violet::before { background-image: var(--cp-grain-coarse); }
+    /* Frosted overlap. The Signature art shows the intersection as a light,
+       misted band, not a darkened one, so multiply is deliberately not used. */
+    .glass-pane.pane-overlap {
+      --cp-pane-light: rgba(255, 255, 255, 0.9);
+      --cp-pane-dark: rgba(255, 255, 255, 0.5);
+      --cp-grain-strength: 0.34;
+      border-color: rgba(255, 255, 255, 0.62);
+      box-shadow: none;
+    }
+    @supports (backdrop-filter: blur(6px)) {
+      .glass-pane.pane-overlap { backdrop-filter: blur(11px) saturate(0.72); }
+    }
     .hero > .journey-title, .hero > .journey { grid-column: 1 / -1; }
     .hero-kicker { display: flex; gap: 12px; justify-content: center; align-items: center; margin-bottom: 24px; }
     .hero-kicker .line { width: 32px; height: 2px; background: var(--cp-accent); }
-    h1 { font-size: clamp(56px, 5vw, 88px); letter-spacing: -0.055em; font-weight: 750; line-height: 1.02; }
+    /* Headlines: Segoe Serif Display. Body and UI: Segoe Sans Display. */
+    h1, .station h2, .getting-ready h2, .big-number, .nav-num { font-family: var(--cp-font-serif); }
+    h1 { font-size: clamp(56px, 5vw, 88px); letter-spacing: -0.045em; font-weight: 700; line-height: 1.02; }
     h1 .title-prefix { font-size: 0.42em; letter-spacing: -0.035em; display: block; margin-bottom: 16px; font-weight: 600; }
     h1 .title-main { color: var(--cp-text); }
     .hero-intro > .tagline { max-width: min(580px, 68%); }
-    .tagline { margin-top: 24px; font-size: 25px; font-style: italic; line-height: 1.4; color: var(--cp-text); }
+    /* Italics are reserved for the key transformative word, the one that
+       shifts a line from task-based to aspirational. Not whole sentences. */
+    .tagline { margin-top: 24px; font-size: 25px; font-style: normal; line-height: 1.4; color: var(--cp-text); }
+    .key-word { font-family: var(--cp-font-serif); font-style: italic; font-weight: 500; }
     .hero-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 24px; }
     .tag { font-size: 11px; font-weight: 600; padding: 5px 10px; border: 1px solid var(--cp-border); border-radius: 20px; background: var(--cp-card); }
     .brief { padding: 28px 32px; background: var(--cp-card); border: 1px solid var(--cp-border); border-radius: 12px; }
@@ -242,14 +460,33 @@
     .kit-file { background: var(--cp-card); border: 1px solid var(--cp-border); border-radius: 10px; padding: 24px; }
     .kit-file strong { font-size: 17px; display: block; margin: 8px 0; }
     .filename { display: block; font: 11px/1.65 Consolas, "Courier New", Courier, monospace; overflow-wrap: anywhere; color: var(--cp-text-muted); }
-    .download-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; padding: 8px 12px; border: 1px solid var(--cp-station); border-radius: 6px; color: var(--cp-station); font-size: 12px; font-weight: 600; text-decoration: none; }
+    .download-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; padding: 8px 12px; border: 1px solid var(--cp-station); border-radius: 6px; color: var(--cp-label); font-size: 12px; font-weight: 600; text-decoration: none; }
     .download-link:hover { background: var(--cp-wash); }
     .setup a.filename { color: var(--cp-link); text-decoration: underline; }
-    .app { display: inline-flex; align-items: center; font-size: 12px; font-weight: 650; color: var(--cp-station); }
-    .copilot { --cp-station: var(--cp-copilot); --cp-wash: var(--cp-copilot-soft); --cp-glow: var(--cp-copilot-glow); --cp-art-light: var(--cp-glass-lilac); --cp-art-dark: var(--cp-glass-violet); }
-    .word { --cp-station: var(--cp-word); --cp-wash: var(--cp-word-soft); --cp-glow: var(--cp-word-glow); --cp-art-light: var(--cp-glass-cyan); --cp-art-dark: var(--cp-glass-blue); }
-    .excel { --cp-station: var(--cp-excel); --cp-wash: var(--cp-excel-soft); --cp-glow: var(--cp-excel-glow); --cp-art-light: var(--cp-glass-lime); --cp-art-dark: var(--cp-glass-green); }
-    .powerpoint { --cp-station: var(--cp-powerpoint); --cp-wash: var(--cp-powerpoint-soft); --cp-glow: var(--cp-powerpoint-glow); --cp-art-light: var(--cp-glass-peach); --cp-art-dark: var(--cp-glass-orange); }
+    .app { display: inline-flex; align-items: center; font-size: 12px; font-weight: 650; color: var(--cp-label); }
+    /* Highlight mechanic, drawn from familiar product interactions:
+       text edit (Word), cell select (Excel), bounding box (PowerPoint). */
+    .skill-line .app { position: relative; padding: 0 4px; }
+    .word .skill-line .app { background: var(--cp-wash); box-shadow: inset 0 -2px 0 var(--cp-station); }
+    .excel .skill-line .app { outline: 2px solid var(--cp-station); outline-offset: 3px; }
+    .excel .skill-line .app::after {
+      content: ""; position: absolute; right: -6px; bottom: -6px; width: 6px; height: 6px;
+      background: var(--cp-station); border: 1px solid var(--cp-bg);
+    }
+    .powerpoint .skill-line .app { outline: 1.5px solid var(--cp-station); outline-offset: 4px; }
+    .powerpoint .skill-line .app::before, .powerpoint .skill-line .app::after {
+      content: ""; position: absolute; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--cp-bg); border: 1.5px solid var(--cp-station);
+    }
+    .powerpoint .skill-line .app::before { left: -8px; top: -8px; }
+    .powerpoint .skill-line .app::after { right: -8px; bottom: -8px; }
+    .copilot .skill-line .app { background: var(--cp-wash); box-shadow: inset 0 -2px 0 var(--cp-station); }
+    .copilot { --cp-label: var(--cp-teams-label); --cp-station: var(--cp-copilot); --cp-wash: var(--cp-copilot-soft); --cp-glow: var(--cp-copilot-glow); --cp-art-light: var(--cp-glass-lilac); --cp-art-dark: var(--cp-glass-violet); }
+    /* Station 1 art now reads as Teams rather than generic violet glass. */
+    .station.copilot .station-head .glass-pane { --cp-art-light: rgba(197, 184, 255, 0.78); --cp-art-dark: rgba(149, 67, 255, 0.86); }
+    .word { --cp-label: var(--cp-word-label); --cp-station: var(--cp-word); --cp-wash: var(--cp-word-soft); --cp-glow: var(--cp-word-glow); --cp-art-light: var(--cp-glass-cyan); --cp-art-dark: var(--cp-glass-blue); }
+    .excel { --cp-label: var(--cp-excel-label); --cp-station: var(--cp-excel); --cp-wash: var(--cp-excel-soft); --cp-glow: var(--cp-excel-glow); --cp-art-light: var(--cp-glass-lime); --cp-art-dark: var(--cp-glass-green); }
+    .powerpoint { --cp-label: var(--cp-ppt-label); --cp-station: var(--cp-powerpoint); --cp-wash: var(--cp-powerpoint-soft); --cp-glow: var(--cp-powerpoint-glow); --cp-art-light: var(--cp-glass-peach); --cp-art-dark: var(--cp-glass-orange); }
     .station { margin-top: 48px; border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-card); }
     .station-head {
       position: relative; isolation: isolate; background: var(--cp-bg);
@@ -258,17 +495,32 @@
     }
     .station-head > :not(.ribbon-art) { position: relative; z-index: 1; }
     .station-head .glass-pane { --cp-pane-light: var(--cp-art-light); --cp-pane-dark: var(--cp-art-dark); }
-    .station-head .pane-back { width: 160px; height: 230px; right: 130px; top: -120px; }
-    .station-head .pane-main { width: 185px; height: 290px; right: -12px; top: -30px; }
-    .station-head .pane-front { --cp-pane-light: var(--cp-glass-ice); --cp-pane-dark: var(--cp-art-light); width: 150px; height: 180px; right: 88px; bottom: -85px; }
+    /* Stations run thin. Two shapes, not four: one product-colored form and
+       one frosted overlap crossing it. Lower opacity keeps the composition
+       supportive instead of competing with the heading. */
+    .station-head .glass-pane { --cp-grain-strength: 0.4; }
+    /* Station art carries the texture of the app that station teaches. */
+    .station-head .pane-main { --cp-texture-opacity: 0.44; }
+    .station.word .station-head .pane-main { --cp-pane-texture: var(--cp-tex-word); }
+    .station.excel .station-head .pane-main { --cp-pane-texture: var(--cp-tex-excel); }
+    .station.powerpoint .station-head .pane-main { --cp-pane-texture: var(--cp-tex-powerpoint); }
+    .station.copilot .station-head .pane-main { --cp-pane-texture: var(--cp-tex-teams); }
+    /* 128x240 was 1:1.9 and the worst offender on the page; 160x185 is 1:1.16
+       and matches the proportion of the reference art. */
+    .station-head .pane-main {
+      width: 160px; --pane-h: 185px; right: -26px; top: -14px; opacity: 0.78;
+    }
+    .station-head .pane-overlap {
+      width: 104px; --pane-h: 124px; right: 62px; top: 56px; opacity: 0.9;
+    }
     .station-meta { display: flex; justify-content: space-between; gap: 24px; align-items: center; grid-column: 1 / -1; }
-    .station-meta .eyebrow { color: var(--cp-station); }
+    .station-meta .eyebrow { color: var(--cp-label); }
     .station-time { font-size: 11px; color: var(--cp-text-muted); padding: 4px 10px; background: var(--cp-card); border: 1px solid var(--cp-border); border-radius: 20px; }
-    .station-heading { display: flex; align-items: flex-start; gap: 28px; padding-right: 245px; }
+    .station-heading { display: flex; align-items: flex-start; gap: 28px; padding-right: 200px; }
     .big-number { font-size: 72px; line-height: 1; font-weight: 400; font-style: italic; color: var(--cp-station); letter-spacing: -4px; }
-    .station h2 { font-size: clamp(32px, 2.8vw, 48px); font-weight: 750; letter-spacing: -0.04em; padding-top: 2px; }
+    .station h2 { font-size: clamp(32px, 2.8vw, 48px); font-weight: 700; letter-spacing: -0.03em; padding-top: 2px; }
     .story-date { color: var(--cp-text); font-size: 19px; font-style: italic; line-height: 1.4; margin-top: 12px; }
-    .skill-line { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; padding-right: 245px; font-size: 12px; color: var(--cp-text-muted); }
+    .skill-line { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; padding-right: 200px; font-size: 12px; color: var(--cp-text-muted); }
     .skill-line > span + span { border-left: 1px solid var(--cp-border); padding-left: 16px; }
     .station-body { padding: 32px; display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 32px; align-items: start; }
     .station-context, .station-work { min-width: 0; }
@@ -303,7 +555,7 @@
     .prompt-card.used { box-shadow: none; border-color: var(--cp-border); }
     .prompt-card.used .prompt-header { background: var(--cp-surface-soft); }
     .prompt-card.used .prompt-index { background: var(--cp-accent-soft); color: var(--cp-accent); }
-    .prompt-card.used .copy-button { background: var(--cp-surface); color: var(--cp-station); box-shadow: none; }
+    .prompt-card.used .copy-button { background: var(--cp-surface); color: var(--cp-label); box-shadow: none; }
     .manual-copy { padding: 16px 20px; border-top: 1px solid var(--cp-border); background: var(--cp-wash); }
     .manual-copy p { font-size: 12px; margin-bottom: 12px; }
     .manual-copy textarea { width: 100%; min-height: 110px; padding: 12px; resize: vertical; border: 1px solid var(--cp-border-strong); border-radius: 6px; color: var(--cp-text); background: var(--cp-surface); font: 13px/1.6 Consolas, "Courier New", Courier, monospace; }
@@ -319,18 +571,25 @@
     .dependency-nudge { padding: 16px 20px; background: var(--cp-powerpoint-soft); border: 1px solid var(--cp-border); border-radius: 10px; margin-bottom: 24px; font-size: 13px; }
     .dependency-nudge strong { display: block; margin-bottom: 4px; }
     .station-footer { display: flex; justify-content: space-between; gap: 20px; align-items: center; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--cp-border); font-size: 12px; color: var(--cp-text-muted); }
-    .next-link { color: var(--cp-station); text-decoration: none; font-weight: 600; }
+    .next-link { color: var(--cp-label); text-decoration: none; font-weight: 600; }
     .next-link:hover { text-decoration: underline; }
     .closing { margin-top: 40px; padding: 28px 32px; border: 1px dashed var(--cp-border-strong); border-radius: 16px; }
     .closing h2 { font-size: 20px; margin-top: 8px; font-weight: 600; }
     .closing code { display: block; margin-top: 16px; color: var(--cp-text-muted); font-size: 13px; }
     .page-footer { display: flex; justify-content: space-between; gap: 24px; margin-top: 32px; font-size: 11px; color: var(--cp-text-soft); }
     .toast { position: fixed; right: 28px; bottom: 64px; z-index: 20; max-width: 420px; padding: 12px 20px; border: 1px solid var(--cp-border); border-radius: 10px; background: var(--cp-text); color: var(--cp-surface); font-size: 13px; pointer-events: none; }
-    .materialize { animation: materialize 550ms ease-out both; }
-    @keyframes materialize { from { opacity: 0.4; transform: translateY(12px) scale(0.993); filter: blur(2px); } to { opacity: 1; transform: none; filter: none; } }
+    /* Float: soft, momentum-based, 20-50 frames (330-830ms). Used for large
+       imagery and section reveals. Snap: a 2-frame hold then an unassisted
+       jump, used for small UI moments. The system pairs them. */
+    .materialize { animation: materialize 620ms cubic-bezier(0.22, 0.61, 0.36, 1) both; }
+    @keyframes materialize { from { opacity: 0.4; transform: translateY(16px) scale(0.991); filter: blur(2px); } to { opacity: 1; transform: none; filter: none; } }
+    @keyframes cp-snap { 0%, 12% { opacity: 0; transform: translateY(5px); } 13%, 100% { opacity: 1; transform: none; } }
+    .snap-in { animation: cp-snap 260ms linear both; }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       *, *::before, *::after { animation: none !important; transition: none !important; }
+      .materialize, .snap-in { animation: none !important; opacity: 1; transform: none; filter: none; }
+      .glass-pane { transform: skewX(-14deg) !important; }
     }
     @media (max-width: 1400px) {
       .hero, .station-body, .station-head { grid-template-columns: minmax(0, 1fr); }
@@ -350,10 +609,10 @@
       .hero-intro > :not(.ribbon-art), .hero-intro > .tagline { max-width: 76%; }
       .hero > .brief { grid-template-columns: minmax(0, 1fr); }
       .hero > .brief > details { grid-column: 1; grid-row: auto; padding: 16px 0 0; border-left: 0; border-top: 1px solid var(--cp-border); }
-      .station-head .ribbon-art { left: auto; width: 165px; }
-      .station-head .pane-main { right: -90px; }
-      .station-head .pane-back { right: 30px; }
-      .station-head .pane-front { right: -10px; }
+      /* Hold the near-square proportion; never let it go steep. */
+      .station-head .ribbon-art { left: auto; width: 150px; }
+      .station-head .pane-main { width: 138px; --pane-h: 160px; right: -46px; top: -12px; }
+      .station-head .pane-overlap { width: 92px; --pane-h: 110px; right: 22px; top: 48px; }
       .station-heading, .skill-line { padding-right: 120px; }
     }
     @media (max-width: 720px) {
@@ -366,17 +625,20 @@
       .app-status { margin: 16px 0 0; padding-top: 16px; }
       .station-body { grid-template-columns: minmax(0, 1fr); }
       .hero { padding: 0 0 24px; gap: 24px; }
-      .hero-intro { padding: 96px 0 100px; min-height: 0; }
+      .hero-intro { padding: 152px 0 96px; min-height: 0; }
       .hero-intro > :not(.ribbon-art), .hero-intro > .tagline { max-width: 100%; }
-      .cover-cyan { width: 100px; height: 100px; top: -24px; left: -25px; border-radius: 28px; }
-      .cover-violet { width: 85px; height: 115px; top: -68px; left: 40px; border-radius: 28px; }
-      .cover-blue { width: 115px; height: 100px; bottom: -32px; right: -10px; border-radius: 28px; }
-      .cover-lilac { width: 80px; height: 95px; bottom: -60px; right: 80px; border-radius: 24px; }
+      /* Percentage radii hold the silhouette at any size; the tight corner is
+         scaled up slightly so it stays legible on small panes. */
+      :root { --pane-r-sm-x: 11%; --pane-r-sm-y: 10%; }
+      .cover-cyan { width: 124px; --pane-h: 138px; top: -30px; left: -22px; }
+      .cover-violet { width: 106px; --pane-h: 120px; top: 16px; left: 50px; }
+      .cover-blue { width: 112px; --pane-h: 124px; bottom: -26px; right: -20px; opacity: 0.55; }
+      .cover-lilac { width: 84px; --pane-h: 96px; bottom: -54px; right: 54px; opacity: 0.4; }
       .cover-orange, .cover-green, .cover-pink { display: none; }
-      .station-head .ribbon-art { width: 80px; }
-      .station-head .pane-main { width: 110px; right: -85px; }
-      .station-head .pane-back { width: 80px; right: -32px; top: -185px; }
-      .station-head .pane-front { width: 85px; right: -50px; bottom: -140px; }
+      .hero-intro .cover-cyan::before, .hero-intro .cover-violet::before { opacity: 0.55; }
+      .station-head .ribbon-art { width: 110px; }
+      .station-head .pane-main { width: 104px; --pane-h: 120px; right: -34px; top: -8px; }
+      .station-head .pane-overlap { width: 68px; --pane-h: 80px; right: 4px; top: 40px; }
       .station-heading, .skill-line { padding-right: 20px; }
       .topbar-inner { padding: 0 20px; }
       .top-meta { gap: 8px; }
@@ -420,7 +682,7 @@
         <a class="nav-link" id="nav-welcome" href="#welcome" aria-current="location"><span class="nav-num" aria-hidden="true">00</span><span><span class="nav-title">Start here</span><span class="nav-sub">The story &amp; your files</span></span></a>
       </nav>
       <div class="app-status">
-        <p><a href="#prerequisites">Download the starting kit ↓</a></p>
+        <p><a href="#prerequisites">Download the starting kit &darr;</a></p>
         <p><strong>At your own pace.</strong><br>Jump to any station. Nothing is locked.</p>
         <p id="storage-status" role="status">Progress stays in this browser.</p>
         <p class="progress-note">Checkmarks track copied prompts, not Copilot results.</p>
@@ -438,7 +700,7 @@
       <div id="welcome">
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-intro">
-        <div class="ribbon-art" aria-hidden="true">
+        <div class="ribbon-art overlap-mode" aria-hidden="true">
           <span class="glass-pane cover-violet"></span><span class="glass-pane cover-cyan"></span>
           <span class="glass-pane cover-orange"></span><span class="glass-pane cover-green"></span>
           <span class="glass-pane cover-pink"></span><span class="glass-pane cover-blue"></span>
@@ -446,30 +708,30 @@
         </div>
         <div class="hero-kicker"><span class="line" aria-hidden="true"></span><span class="eyebrow">One crisis. Four stations. Your Copilot.</span></div>
         <h1 id="hero-title"><span class="title-prefix">The Copilot Trek:</span> <span class="title-main">Project Bacon</span></h1>
-        <p class="tagline">A guided trek across Word, Excel, and PowerPoint — powered by Copilot.</p>
-        <div class="hero-tags"><span class="tag">20–25 minutes</span><span class="tag">4 stations</span><span class="tag" id="prompt-count">11 prompts · 2 optional</span><span class="tag">No facilitator needed</span></div>
-        <div class="hero-actions"><a href="#station-1-meeting" class="primary">Let's begin <span aria-hidden="true">→</span></a><span>Start at Station 1, or choose your own entry point.</span></div>
+        <p class="tagline">A guided trek across Word, Excel, and PowerPoint &mdash; <em class="key-word">powered</em> by Copilot.</p>
+        <div class="hero-tags"><span class="tag">20&ndash;25 minutes</span><span class="tag">4 stations</span><span class="tag" id="prompt-count">11 prompts &middot; 2 optional</span><span class="tag">No facilitator needed</span></div>
+        <div class="hero-actions"><a href="#station-1-meeting" class="primary">Let's begin <span aria-hidden="true">&rarr;</span></a><span>Start at Station 1, or choose your own entry point.</span></div>
         </div>
         <div class="brief">
           <p class="eyebrow">The situation</p>
-          <p>Somewhere in the Gamma Quadrant, a routine supply run just became a full-blown crisis: the fleet's sole certified bacon supplier has been assimilated by the Borg, with a major diplomatic gala only 26 days out. What follows is the real (if slightly ridiculous) paper trail of how the crisis got solved — a meeting transcript, a supply chain spreadsheet, and a report template. You'll create the slide deck yourself.</p>
-          <p><strong>Your job:</strong> work through it the way you would a real business crisis, using Copilot to do the heavy lifting at every step. You'll turn a live meeting into notes, a messy spreadsheet into insight, a blank template into a finished report, and that report into an executive-ready deck — in about 20 minutes, start to finish.</p>
+          <p>Somewhere in the Gamma Quadrant, a routine supply run just became a full-blown crisis: the fleet's sole certified bacon supplier has been assimilated by the Borg, with a major diplomatic gala only 26 days out. What follows is the real (if slightly ridiculous) paper trail of how the crisis got solved &mdash; a meeting transcript, a supply chain spreadsheet, and a report template. You'll create the slide deck yourself.</p>
+          <p><strong>Your job:</strong> work through it the way you would a real business crisis, using Copilot to do the heavy lifting at every step. You'll turn a live meeting into notes, a messy spreadsheet into insight, a blank template into a finished report, and that report into an executive-ready deck &mdash; in about 20 minutes, start to finish.</p>
           <details open>
             <summary>This isn't a scripted demo</summary>
-            <p>This isn't a scripted demo. Every prompt here is one you can actually run, on the actual files, and get a real result. Copy it, paste it, watch what happens. If you want to go off-script and try your own prompt instead, do it — that's the point.</p>
-            <p><strong>What you'll need:</strong> just this page and the three source files in the starting kit below. No login beyond your own Copilot license. Work through all four stations in one sitting, or bookmark this page and come back whenever — nothing here expires.</p>
+            <p>This isn't a scripted demo. Every prompt here is one you can actually run, on the actual files, and get a real result. Copy it, paste it, watch what happens. If you want to go off-script and try your own prompt instead, do it &mdash; that's the point.</p>
+            <p><strong>What you'll need:</strong> just this page and the three source files in the starting kit below. No login beyond your own Copilot license. Work through all four stations in one sitting, or bookmark this page and come back whenever &mdash; nothing here expires.</p>
           </details>
         </div>
-        <div class="journey-title"><h2>Four stations, one story</h2><span>AUG 14 → SEP 9, 2026</span></div>
+        <div class="journey-title"><h2>Four stations, one story</h2><span>AUG 14 &rarr; SEP 9, 2026</span></div>
         <div class="journey" id="journey"></div>
       </section>
       <section class="getting-ready" id="prerequisites" aria-labelledby="ready-title">
         <h2 id="ready-title">Your starting kit</h2>
         <p>Download these three source files to begin. Keep the originals and work on your own copies. Downloads require no sign-in; you'll use your own Microsoft 365 Copilot access to complete the activity. Your working files are never uploaded to this site.</p>
         <div class="file-kit">
-          <div class="kit-file word"><span class="app">Word</span><strong>The meeting transcript</strong><span class="filename">SISCC_August2026_Monthly_Meeting.docx</span><a class="download-link" href="./assets/SISCC_August2026_Monthly_Meeting.docx" download="SISCC_August2026_Monthly_Meeting.docx">Download transcript · DOCX ↓</a></div>
-          <div class="kit-file excel"><span class="app">Excel</span><strong>The provisions ledger</strong><span class="filename">Project_Bacon_Fleet_Provisions_Ledger.xlsx</span><a class="download-link" href="./assets/Project_Bacon_Fleet_Provisions_Ledger.xlsx" download="Project_Bacon_Fleet_Provisions_Ledger.xlsx">Download ledger · XLSX ↓</a></div>
-          <div class="kit-file word"><span class="app">Word</span><strong>The blank report template</strong><span class="filename">Project_Bacon_Crisis_Report_Template.docx</span><a class="download-link" href="./assets/Project_Bacon_Crisis_Report_Template.docx" download="Project_Bacon_Crisis_Report_Template.docx">Download template · DOCX ↓</a></div>
+          <div class="kit-file word"><span class="app">Word</span><strong>The meeting transcript</strong><span class="filename">SISCC_August2026_Monthly_Meeting.docx</span><a class="download-link" href="./assets/SISCC_August2026_Monthly_Meeting.docx" download="SISCC_August2026_Monthly_Meeting.docx">Download transcript &middot; DOCX &darr;</a></div>
+          <div class="kit-file excel"><span class="app">Excel</span><strong>The provisions ledger</strong><span class="filename">Project_Bacon_Fleet_Provisions_Ledger.xlsx</span><a class="download-link" href="./assets/Project_Bacon_Fleet_Provisions_Ledger.xlsx" download="Project_Bacon_Fleet_Provisions_Ledger.xlsx">Download ledger &middot; XLSX &darr;</a></div>
+          <div class="kit-file word"><span class="app">Word</span><strong>The blank report template</strong><span class="filename">Project_Bacon_Crisis_Report_Template.docx</span><a class="download-link" href="./assets/Project_Bacon_Crisis_Report_Template.docx" download="Project_Bacon_Crisis_Report_Template.docx">Download template &middot; DOCX &darr;</a></div>
         </div>
         <p><strong>Keep this page beside your Microsoft 365 apps.</strong> Open the named file, open Copilot, then copy and run the station's prompts in order in the same conversation. Wait for each response before continuing. You need access to Copilot in Word, Excel, and PowerPoint; the activity page itself needs no sign-in.</p>
         <details><summary>Before you run a prompt</summary><p>Save editable working copies to your work OneDrive or SharePoint if your app requires it. Use Copilot's file or source picker to attach the named originals; controls vary by app and rollout. If a source cannot be attached, or Copilot cannot edit your file, resolve that access or capability issue before continuing. Do not assume a filename typed into a prompt attaches the file. Review generated facts and numbers against the sources. This fictional exercise contains no real customer data.</p></details>
@@ -478,11 +740,11 @@
       </div>
       <div id="stations"></div>
       <section class="closing" id="closing" aria-labelledby="closing-title">
-        <p class="eyebrow">Closing section · copy pending</p>
+        <p class="eyebrow">Closing section &middot; copy pending</p>
         <h2 id="closing-title">Wrap-up</h2>
         <code>[CLOSING BLURB PLACEHOLDER]</code>
       </section>
-      <footer class="page-footer"><span>The Copilot Trek: Project Bacon</span><span>Fictional scenario. Real skills. Your working files stay with you.</span><a href="#welcome">Back to top ↑</a></footer>
+      <footer class="page-footer"><span>The Copilot Trek: Project Bacon</span><span>Fictional scenario. Real skills. Your working files stay with you.</span><a href="#welcome">Back to top &uarr;</a></footer>
     </main>
   </div>
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
@@ -573,7 +835,6 @@
           ]
         }
       ];
-
       const storageKey = "copilot-trek-project-bacon:v1";
       const promptIds = new Set(stations.flatMap(station => station.prompts.map((_, i) => `${station.id}-prompt-${i + 1}`)));
       const sectionIds = ["welcome", ...stations.map(station => station.id)];
@@ -775,9 +1036,9 @@
           section.id = station.id;
           section.setAttribute("aria-labelledby", `${station.id}-title`);
           const head = element("div", "station-head");
-          const art = element("div", "ribbon-art");
+          const art = element("div", "ribbon-art overlap-mode");
           art.setAttribute("aria-hidden", "true");
-          ["pane-back", "pane-main", "pane-front"].forEach(layer => art.append(element("span", `glass-pane ${layer}`)));
+          ["pane-main", "pane-overlap"].forEach(layer => art.append(element("span", `glass-pane ${layer}`)));
           head.append(art);
           const meta = element("div", "station-meta");
           meta.append(element("span", "eyebrow", `Station ${number} / ${station.skill}`), element("span", "station-time", `${station.minutes} MIN`));
