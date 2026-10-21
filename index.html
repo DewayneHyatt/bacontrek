@@ -603,7 +603,7 @@
     .next-link:hover { text-decoration: underline; }
     .closing { margin-top: 40px; padding: 28px 32px; border: 1px dashed var(--cp-border-strong); border-radius: 16px; }
     .closing h2 { font-size: 20px; margin-top: 8px; font-weight: 600; }
-    .closing code { display: block; margin-top: 16px; color: var(--cp-text-muted); font-size: 13px; }
+    .closing > p:not(.eyebrow) { margin-top: 16px; color: var(--cp-text-muted); font-size: 14px; }
     .page-footer { display: flex; justify-content: space-between; gap: 24px; margin-top: 32px; font-size: 11px; color: var(--cp-text-soft); }
     .toast { position: fixed; right: 28px; bottom: 64px; z-index: 20; max-width: 420px; padding: 12px 20px; border: 1px solid var(--cp-border); border-radius: 10px; background: var(--cp-text); color: var(--cp-surface); font-size: 13px; pointer-events: none; }
     /* Float: soft, momentum-based, 20-50 frames (330-830ms). Used for large
@@ -769,9 +769,11 @@
       </div>
       <div id="stations"></div>
       <section class="closing" id="closing" aria-labelledby="closing-title">
-        <p class="eyebrow">Closing section &middot; copy pending</p>
+        <p class="eyebrow">Fictional crisis &middot; everyday skills</p>
         <h2 id="closing-title">Wrap-up</h2>
-        <code>[CLOSING BLURB PLACEHOLDER]</code>
+        <p>You turned a meeting into a recap, messy data into findings, sources into a report, and a report into a briefing. The real skill wasn't memorizing four prompts. It was learning how to move work forward, one grounded step at a time.</p>
+        <p><strong>Give context. Use sources. Refine the result. Verify before you share.</strong> Name the goal and audience, bring the files that matter, and ask for the structure you need. Then check the facts, numbers, and conclusions against those sources. Copilot can help with the heavy lifting; your judgment makes the work worth using.</p>
+        <p>Your next mission doesn't need a fleet-wide bacon crisis. Start with one real task: a meeting to recap, a spreadsheet to untangle, or a decision to explain. Use the same pattern, keep what works, and build from there. You don't need a perfect first prompt to make a useful next step.</p>
       </section>
       <footer class="page-footer"><span>The Copilot Trek: Project Bacon</span><span>Fictional scenario. Real skills. Your working files stay with you.</span><a href="#welcome">Back to top &uarr;</a></footer>
     </main>
